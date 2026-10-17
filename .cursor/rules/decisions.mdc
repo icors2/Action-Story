@@ -1,0 +1,97 @@
+---
+description: Architecture and tool decisions (ADRs). Apply when choosing or changing stack, MCP, deploy, or structure.
+alwaysApply: false
+---
+
+# Decisions
+
+Record choices that later agents should not silently reverse. Newest first. Full ADRs live in `docs/DECISIONS.md` after Phase 0.
+
+## 2026-10-17 — Canonical GitHub repo
+
+- **Decision (D-019):** The project lives at https://github.com/icors2/Action-Story. `origin` points there. Issues, PRs, Actions, and releases use this repo — not Cursor_Forge.
+- **Why:** Owner designated Action-Story as the product repository. Cursor_Forge was the starter template.
+- **Alternatives rejected:** Keep developing on Cursor_Forge; a new private repo.
+- **Revisit when:** The public name/brand changes (codename is still Skyrope).
+
+## 2026-10-17 — Skyrope bootstrap
+
+- **Decision (D-017):** Pin Godot `4.7.2-stable` in `.godot-version`. Typed `Dictionary[K, V]` is allowed.
+- **Why:** Latest stable as of 2026-10-17. 4.8 is still beta. BUILD_SCOPE §8.2 forbade typed dicts unless the pin supports them and the log approves it.
+- **Alternatives rejected:** 4.3 (spec minimum); 4.4.1 (stale example in spec); 4.8-beta1.
+- **Revisit when:** Next Godot minor, only between milestones on a branch with the full suite.
+
+- **Decision:** Enable only Context7 and GitHub MCP.
+- **Why:** Godot/FastAPI docs + issues/PRs. No web deploy, hosted Postgres, or payments in this stack.
+- **Alternatives rejected:** Enabling the whole catalog; Neon/Supabase (homelab Postgres); Vercel/Render.
+- **Revisit when:** A later phase needs another tool the agents will actually call.
+
+- **Decision (D-001–D-016):** Accepted as written in `BUILD_SCOPE.md` §14.2. Copy into `docs/DECISIONS.md` in Phase 0. Highlights:
+  - One Godot project builds client + dedicated server (feature tags + export presets).
+  - Server-authoritative sim. Single-player is in-process `LocalAuthority` running the same `WorldSim`.
+  - ENet + custom snapshots. No `MultiplayerSynchronizer` / `MultiplayerSpawner`.
+  - 60 Hz sim, 20 Hz snapshots, client prediction for local movement only.
+  - Players collide only with static terrain. Space queries for ropes/hits, not Area2D signals.
+  - One World2D per MapInstance. Content is JSON + Schema via `index.json`.
+  - Custom FastAPI + Postgres backend (not Nakama). HMAC join tickets. Item uids. One `CharacterRecord` shape.
+  - Homelab Docker + Tailscale for alpha. Flat platforms only in MVP. Currency **Glimmer**. Classes Novice/Vanguard/Arcanist/Ranger/Shade.
+
+## 2026-10-17 — Threat model (bootstrap)
+
+- **Data:** accounts (later), character records, inventories/item uids, Glimmer, join tickets, chat (later). No payments. No real-money shop.
+- **Boundaries:** Godot client → FastAPI (HTTPS/JWT); client → gameserver (ENet); gameserver → FastAPI `/internal/*` (service token); FastAPI → Postgres. Client must never call `/internal/*` or send positions/damage.
+- **Attackers:** modified client, packet injector, credential stuffing (Phase 11+), stolen session, malicious dependency.
+- **Blast radius:** one ticket/session = one character; service token = all character writes; DB = full persistence. Isolate keys. One active session per account.
+- **Logging:** JSON lines on server. Never log passwords, JWTs, tickets, or HMAC secrets.
+- **Recovery:** `save_version` + backups (Phase 16). Ticket TTL 30s, single-use. Tailscale-only until public profile.
+- **Open risks:** homelab disk failure (R7); item dupe paths until Phase 11/12 tests exist; no public DDoS plan until Phase 16/17.
+
+## 2026-08-29 — Vibe coder capability layer
+
+- **Decision:** Golden path (`assets/stack-playbooks/golden-path.md`) is **opt-in** when the user has no stack preference — not an automatic default.
+- **Why:** Speed for vibe coding without trapping users who named a stack.
+- **Alternatives rejected:** Golden path as hard default; stay fully silent with no opinionated option.
+- **Revisit when:** Most clones pick the same stack in practice.
+
+- **Decision:** Feature integrations use one `add-integration` skill plus `assets/recipes/*.md`, not six nearly identical skills.
+- **Why:** One procedure; stack/vendor detail stays on-demand; Cloud Agents get portable recipes without user-level vendor skills.
+- **Alternatives rejected:** One skill per integration; relying only on `~/.cursor` vendor skills.
+- **Revisit when:** A recipe grows large enough to need its own skill (migrations already did → `migrate-database`).
+
+- **Decision:** UI polish is a `polish-ui` skill + `assets/checklists/ui-polish.md` (verifiable), with globbed `30-frontend.mdc` for local habits.
+- **Why:** Vibe users judge on look/feel; always-apply must stay short.
+- **Alternatives rejected:** Dumping a full style guide into always-apply rules.
+- **Revisit when:** The product adopts a stricter design system.
+
+## 2026-08-29 — Agent starter hardening
+
+- **Decision:** Boilerplate (CI, GitHub templates, Docker, linters, hooks) stays under `assets/templates/` and is copied on demand — not materialized at repo root.
+- **Why:** Keeps the starter stack-agnostic; Cloud and local clones stay blank until bootstrap.
+- **Alternatives rejected:** Materializing CI/Docker at root; hybrid root+templates for every file.
+- **Revisit when:** A preferred org-wide scanner replaces the local script. Skyrope CI is created in Phase 0 from BUILD_SCOPE §9.26, not from the Node template blindly.
+
+- **Decision:** Security is both prose and tooling — `security-review` skill, `security-reviewer` subagent, `20-security.mdc`, checklists, `scripts/scan-secrets.mjs`, and a CI security-scan template.
+- **Why:** Agents need a planned review path and a mechanical gate; Cloud Agents cannot rely on user-level security skills.
+- **Alternatives rejected:** Checklist-only; tooling-only without a review runbook.
+- **Revisit when:** A preferred org-wide scanner replaces the local script.
+
+- **Decision:** Cursor hooks ship as inert templates under `assets/templates/hooks/` (Node `.mjs`), not enabled by default.
+- **Why:** Hooks change every agent run; a bad deny rule blocks work. Node scripts are portable to Windows and Linux Cloud Agents (`.sh` is not).
+- **Alternatives rejected:** Activating `.cursor/hooks.json` out of the box; shell-only hooks.
+- **Revisit when:** The user asks to enable project hooks.
+
+## Template defaults (2026-08-29)
+
+- **Working memory lives in project rules**, not chat and not `~/.cursor`. Cloud Agents only see the repo.
+- **Skills for workflows, rules for constraints.** Bootstrap, MCP, and memory updates are skills.
+- **MCP is opt-in.** The catalog is in `assets/mcp-catalog.md`.
+- **No application stack until bootstrap.** Skyrope is now the stack — see 2026-10-17 entries.
+
+<!--
+## YYYY-MM-DD — Short title
+
+- Decision:
+- Why:
+- Alternatives rejected:
+- Revisit when:
+-->

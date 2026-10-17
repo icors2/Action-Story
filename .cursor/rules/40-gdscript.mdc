@@ -1,0 +1,17 @@
+---
+description: Typed GDScript habits for the Skyrope Godot project.
+globs: game/**/*.gd
+alwaysApply: false
+---
+
+# GDScript
+
+- Type every variable, parameter, and return (`-> void` included). `untyped_declaration` is an error.
+- File order: `class_name`, `extends`, `##` doc, signals, enums, constants, `@export`, public vars, private vars, `@onready`, `_init`, `_ready`, other virtuals, public methods, private methods.
+- `##` on every public class and function in `sim/` and `shared/`.
+- Tabs for indentation (Godot default). snake_case files; `PascalCase` `class_name` and scene node names.
+- No `get_node()` paths deeper than one level. Use `$Foo` or `%UniqueName`.
+- No `await` inside sim tick code. Timers are tick counts (`int`), not `Timer` nodes.
+- Prefer a small typed `RefCounted` over a `Dictionary` as a cross-module struct. Typed `Dictionary[K, V]` is allowed (D-017, Godot 4.7.2).
+- `.gd` ≤ 400 lines (aim 250). Functions ≤ 50 lines.
+- `push_error()` for programmer errors; `Log.warn()` for runtime anomalies. Never silent `pass`.

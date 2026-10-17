@@ -1,0 +1,4 @@
+{
+  "install": "bash scripts/install-cloud-env.sh",
+  "start": "echo 'Skyrope: use make run / make server after Phase 0. No long-running default process yet.'"
+}

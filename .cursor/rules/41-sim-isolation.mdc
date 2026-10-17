@@ -1,0 +1,14 @@
+---
+description: Authoritative simulation must stay presentation-free and intent-driven.
+globs: game/sim/**/*.gd
+alwaysApply: false
+---
+
+# Sim isolation
+
+- Never reference `client/`, UI nodes, `AudioStreamPlayer`, `Camera2D`, `Input`, or the `Net` autoload.
+- Mutate gameplay state only in response to an `InputFrame` or `Intent`. Emit `SimEvent`s; do not call views.
+- All randomness goes through the injected `WorldSim` RNG. Never global `randf()`.
+- Physics in the sim tick only (`_physics_process` / `MapInstance.step`). Same 60 Hz on client and server.
+- Players collide with static terrain only. Ropes, ladders, and hits use direct space queries, not Area2D signals.
+- Determinism tests and codec round-trip matter more than convenience helpers.

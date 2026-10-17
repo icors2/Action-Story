@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "ap_per_level", "sp_per_level", "base_stats"],
+  "properties": {
+    "schema_version": { "type": "integer" },
+    "ap_per_level": { "type": "integer" },
+    "sp_per_level": { "type": "integer" },
+    "starting_ap": { "type": "integer" },
+    "base_stats": {
+      "type": "object",
+      "properties": {
+        "str": { "type": "integer" },
+        "dex": { "type": "integer" },
+        "int": { "type": "integer" },
+        "luk": { "type": "integer" }
+      }
+    },
+    "crit_base_rate": { "type": "number" },
+    "crit_multiplier": { "type": "number" },
+    "mastery_base": { "type": "number" },
+    "defense_factor": { "type": "number" },
+    "level_diff_damage_penalty_per_level": { "type": "number" },
+    "hp_regen_interval_s": { "type": "number" },
+    "mp_regen_interval_s": { "type": "number" },
+    "death_exp_loss_pct": { "type": "number" },
+    "invincibility_after_hit_s": { "type": "number" },
+    "movement": { "type": "object" }
+  }
+}

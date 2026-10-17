@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "ap_per_level": 5,
+  "sp_per_level": 3,
+  "starting_ap": 0,
+  "base_stats": { "str": 4, "dex": 4, "int": 4, "luk": 4 },
+  "crit_base_rate": 0.05,
+  "crit_multiplier": 1.5,
+  "mastery_base": 0.15,
+  "defense_factor": 0.5,
+  "level_diff_damage_penalty_per_level": 0.02,
+  "hp_regen_interval_s": 10,
+  "mp_regen_interval_s": 10,
+  "death_exp_loss_pct": 0.05,
+  "invincibility_after_hit_s": 1.2,
+  "movement": {
+    "walk_speed": 125,
+    "jump_velocity": -330,
+    "gravity": 1000
+  }
+}

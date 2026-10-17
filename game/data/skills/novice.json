@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "id": "novice_strike",
+      "name": "Strike",
+      "class": "novice",
+      "type": "active_attack",
+      "max_level": 1,
+      "animation": "attack_swing",
+      "cast_time_s": 0.4,
+      "hit_frame_s": 0.15,
+      "hitbox": { "shape": "rect", "offset": [24, -16], "size": [32, 28] },
+      "max_targets": 1,
+      "hits": 1,
+      "levels": { "mp_cost": [0, 0], "damage_pct": [100, 100], "cooldown_s": [0, 0] },
+      "knockback": [40, -20]
+    }
+  ]
+}

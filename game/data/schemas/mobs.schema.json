@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "mobs"],
+  "properties": {
+    "schema_version": { "type": "integer" },
+    "mobs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "level", "hp", "weapon_attack", "defense", "exp", "move_speed", "behavior"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "level": { "type": "integer" },
+          "hp": { "type": "integer" },
+          "mp": { "type": "integer" },
+          "weapon_attack": { "type": "integer" },
+          "defense": { "type": "integer" },
+          "accuracy": { "type": "integer" },
+          "avoid": { "type": "integer" },
+          "exp": { "type": "integer" },
+          "move_speed": { "type": "number" },
+          "chase_speed": { "type": "number" },
+          "jump": { "type": "boolean" },
+          "behavior": { "type": "string" },
+          "aggro_range": { "type": "number" },
+          "contact_damage": { "type": "boolean" },
+          "knockback_resist": { "type": "number" },
+          "drop_table": { "type": "string" },
+          "scene": { "type": "string" },
+          "body_size": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "respawn_s": { "type": "number" }
+        }
+      }
+    }
+  }
+}

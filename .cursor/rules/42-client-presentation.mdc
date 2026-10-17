@@ -1,0 +1,15 @@
+---
+description: Client presentation reads Authority and GameState; it never owns gameplay truth.
+globs: game/client/**/*.gd
+alwaysApply: false
+---
+
+# Client presentation
+
+- Never write sim entities or compute hits, damage, EXP, loot, or quest completion.
+- Send `InputFrame`s and `Intent`s through Authority. Wait for snapshots/events for gameplay results.
+- Local movement may be predicted via `Predictor` + shared `MovementMotor`. Do not interpolate the local player.
+- Cosmetic attack animations may play immediately; cancel on `INTENT_REJECTED`. Damage numbers only from server `DAMAGE` events.
+- UI reads `GameState` only. No `PlayerEntity` / `sim/` imports under `client/ui/`.
+- No `intersect_shape` (or other hit queries) under `client/`.
+- Client-only autoloads early-return when `Config.is_server()`.

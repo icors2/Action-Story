@@ -1,0 +1,60 @@
+name: ci
+on:
+  push: { branches: [main] }
+  pull_request:
+
+jobs:
+  data:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install jsonschema
+      - run: python tools/build_index.py --check
+      - run: python tools/validate_data.py
+
+  godot:
+    runs-on: ubuntu-latest
+    needs: data
+    steps:
+      - uses: actions/checkout@v4
+        with: { lfs: true }
+      - name: Read Godot version
+        run: echo "GODOT_VERSION=$(cat .godot-version)" >> "$GITHUB_ENV"
+      - name: Cache Godot
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}
+      - name: Install Godot + export templates
+        run: |
+          mkdir -p ~/godot && cd ~/godot
+          BASE="https://github.com/godotengine/godot-builds/releases/download/${GODOT_VERSION}"
+          if [ ! -f godot ]; then
+            wget -q "${BASE}/Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+            unzip -q "Godot_v${GODOT_VERSION}_linux.x86_64.zip"
+            mv "Godot_v${GODOT_VERSION}_linux.x86_64" godot
+          fi
+          if [ ! -f "Godot_v${GODOT_VERSION}_export_templates.tpz" ]; then
+            wget -q "${BASE}/Godot_v${GODOT_VERSION}_export_templates.tpz"
+          fi
+          TPL="$HOME/.local/share/godot/export_templates/$(echo $GODOT_VERSION | tr '-' '.')"
+          mkdir -p "$TPL"
+          unzip -qo "Godot_v${GODOT_VERSION}_export_templates.tpz" -d /tmp/tpl
+          cp -r /tmp/tpl/templates/* "$TPL/"
+          echo "$HOME/godot" >> "$GITHUB_PATH"
+      - name: Import project
+        run: godot --headless --import --path game || godot --headless --editor --quit --path game
+      - name: Run GUT tests
+        run: godot --headless --path game -s addons/gut/gut_cmdln.gd -gexit
+      - name: Smoke-run server
+        run: timeout 10 godot --headless --path game --quit-after 300 -- --server --port=7799
+      - name: Export server + clients
+        run: |
+          mkdir -p build/server build/client/linux build/client/windows
+          godot --headless --path game --export-release "Linux Server" ../build/server/skyrope_server.x86_64
+          godot --headless --path game --export-release "Linux Client" ../build/client/linux/skyrope.x86_64
+          godot --headless --path game --export-release "Windows Client" ../build/client/windows/skyrope.exe
+      - uses: actions/upload-artifact@v4
+        with: { name: builds, path: build/ }

@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://sim/world/map_instance.gd" id="1"]
+
+[node name="MapInstance" type="SubViewport"]
+disable_3d = true
+render_target_update_mode = 0
+script = ExtResource("1")

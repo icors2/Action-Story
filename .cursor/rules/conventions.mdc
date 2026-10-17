@@ -1,0 +1,40 @@
+---
+description: Learned coding and repository conventions. Apply when writing or reviewing project files.
+alwaysApply: false
+---
+
+# Conventions
+
+Add a bullet only after it is a real project habit. Do not paste a style guide.
+
+## Repository
+
+- Project rules are `.mdc` files under `.cursor/rules/` (nested folders are fine).
+- Skills live at `.cursor/skills/<name>/SKILL.md` with `name` matching the folder.
+- Secrets stay out of git. Use `.env` locally and `${env:NAME}` in `.cursor/mcp.json`.
+- Godot project lives in `game/` so the editor does not import backend/tool files.
+- Branches: `main` (always green), `phase/NN-short-name`, `fix/...`, `chore/...`.
+- Conventional Commits: `feat(combat): …`, `fix(net): …`, `test(items): …`, `docs(scope): …`, `chore(ci): …`.
+- One BUILD_SCOPE task = one commit. Do not commit `.godot/`, `export/`, `build/`, `.env`, or user saves.
+
+## Skyrope (from BUILD_SCOPE §8)
+
+- Typed GDScript everywhere. Treat `untyped_declaration` as an error. Tabs in `*.gd`; 2 spaces in JSON/YAML.
+- `.gd` hard limit 400 lines (aim 250). Functions ≤ 50 lines. One responsibility per script.
+- `sim/` never references `client/`, UI, audio, camera, `Input`, or the `Net` autoload.
+- `client/` never mutates sim entities. Presentation reads Authority snapshots/events and `GameState`.
+- If a designer would tweak a number, it belongs in `game/data/*.json`, not code.
+- Discover data only via `game/data/index.json`. Never `DirAccess` for content files.
+- No `MultiplayerSynchronizer` / `MultiplayerSpawner`. Custom snapshots only.
+- Original names and art only. No MapleStory/Nexon assets, names, or private-server dumps.
+- Tests accompany `game/sim/` and `game/shared/` logic. Never delete tests to go green.
+- After each task: headless boot + GUT. Tick the BUILD_SCOPE checkbox only when that passes.
+
+## Starter habits still useful
+
+- **Smoke before done:** `verify-godot-change` for game code; `npm run verify` after Cursor layout changes.
+- Keep the `assets/` catalog. Do not install hooks unless the user asked.
+
+<!--
+- Example: API routes return `{ ok, data, error }` and never raw strings.
+-->

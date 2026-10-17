@@ -1,0 +1,15 @@
+---
+description: Data-driven content rules for Skyrope JSON and schemas.
+globs: game/data/**/*.json
+alwaysApply: false
+---
+
+# Data JSON
+
+- IDs are `snake_case` and unique per category. Do not rename after Phase 11; add `aliases`.
+- Every file has `"schema_version": 1`.
+- List every data file in `index.json`. Exports cannot enumerate `res://` dirs.
+- Cross-references must exist (items, mobs, drops, maps, quests, skills). CI validates schemas.
+- Balance constants belong here (`stats.json`, skill `levels`, drop chances), not in GDScript.
+- Original names only. Prefix items/quests (`wpn_`, `pot_`, `etc_`, `q_`, `npc_`, `dt_`, `shop_`).
+- Currency is Glimmer. Classes are Novice, Vanguard, Arcanist, Ranger, Shade.

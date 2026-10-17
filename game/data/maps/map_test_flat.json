@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "maps": [
+    {
+      "id": "map_test_flat",
+      "name": "Test Flat",
+      "scene": "res://content/maps/map_test_flat.tscn",
+      "bounds": [0, 0, 640, 360],
+      "return_map": "map_test_flat",
+      "flags": { "town": false }
+    }
+  ]
+}

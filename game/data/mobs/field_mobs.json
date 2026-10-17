@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "mobs": [
+    {
+      "id": "puddlet",
+      "name": "Puddlet",
+      "level": 2,
+      "hp": 35,
+      "mp": 0,
+      "weapon_attack": 8,
+      "defense": 2,
+      "accuracy": 10,
+      "avoid": 2,
+      "exp": 6,
+      "move_speed": 40,
+      "jump": false,
+      "behavior": "patrol_aggro_on_hit",
+      "aggro_range": 0,
+      "chase_speed": 55,
+      "contact_damage": true,
+      "knockback_resist": 0.0,
+      "drop_table": "dt_puddlet",
+      "scene": "res://content/sprites/mobs/puddlet_view.tscn",
+      "body_size": [24, 18],
+      "respawn_s": 8
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+# Secrets and local env
+.env
+.env.*
+!.env.example
+docker/.env
+backups/
+
+# Godot
+game/.godot/
+game/.import/
+*.translation
+export.cfg
+export_credentials.cfg
+*.pck
+*.x86_64
+*.exe
+
+# Dependencies and build
+node_modules/
+dist/
+build/
+.next/
+.nuxt/
+.output/
+coverage/
+*.tsbuildinfo
+
+# Tooling
+.DS_Store
+Thumbs.db
+*.log
+.idea/
+.vscode/*
+!.vscode/extensions.json
+
+# Cursor / Netlify / Vercel local
+.cursor/hooks/*.local.*
+.netlify/
+.vercel/
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+
+# OS / editor
+*.swp
+*~

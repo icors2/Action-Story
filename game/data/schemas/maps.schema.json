@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "maps"],
+  "properties": {
+    "schema_version": { "type": "integer" },
+    "maps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "scene"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "scene": { "type": "string" },
+          "bounds": {
+            "type": "array",
+            "items": { "type": "number" }
+          },
+          "return_map": { "type": "string" },
+          "flags": { "type": "object" }
+        }
+      }
+    }
+  }
+}

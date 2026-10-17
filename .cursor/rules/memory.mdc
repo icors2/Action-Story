@@ -1,0 +1,58 @@
+---
+alwaysApply: true
+---
+
+# Working memory
+
+Agents update this file. It is the living snapshot of the project.
+
+## Status
+
+- **Status:** active
+- **Updated:** 2026-10-17
+
+## Project
+
+- **Name:** Skyrope (codename; rename via search-replace `skyrope`)
+- **Purpose:** 2D side-scrolling action MMORPG. Server-authoritative from day one. Inspired by classic 2000s Korean side-scrollers; original art, names, and world.
+- **Owner:** Chris O'Neal
+- **GitHub:** https://github.com/icors2/Action-Story (canonical remote; public; default branch `main`)
+- **Stack:** Godot **4.7.2-stable** + typed GDScript (client + dedicated server, one project in `game/`). Python 3.12 + FastAPI + SQLAlchemy 2 + Alembic + asyncpg (account/backend, Phase 11). PostgreSQL 16+ (Phase 11). GUT for Godot tests. pytest for backend.
+- **Package manager:** Make at repo root. `uv` for backend (Phase 11). npm scripts only for Cursor layout audit.
+- **Deploy target:** Docker Compose on a Linux homelab, Tailscale-only until Phase 16. Later: VPS.
+
+## Current focus
+
+- **Phase 0 (M0) complete.** Skeleton boots LOCAL (`map_test_flat` eid=1) and SERVER (`Channel 1 ready`). 20 GUT tests pass.
+- **Stopped for play-test.** Do not start Phase 1 until Chris says continue.
+- Next phase: **1 — movement & physics** (`implement-skyrope-phase`).
+- Source of truth: `BUILD_SCOPE.md`. One phase at a time.
+
+## Open questions
+
+- Play-test Phase 0 (LOCAL grey floor + headless server) before Phase 1.
+- Redis deferred to Phase 12+ (Decision Log required).
+- Public HTTPS / Caddy profile deferred until leaving Tailscale.
+
+## Environment (names only)
+
+- Required env vars (later phases): `SKYROPE_DEV_TICKETS`, `BACKEND_URL`, `DATABASE_URL`, `SERVICE_TOKEN`, `TICKET_HMAC_SECRET`
+- MCP / tooling: `GITHUB_PERSONAL_ACCESS_TOKEN`, `CONTEXT7_API_KEY`
+- Enabled MCP servers: context7, github
+- Project skills: bootstrap-project, add-mcp-server, create-project-skill, update-working-memory, audit-cursor-setup, security-review, verify-change, ship-change, scope-feature, deploy-app, debug-issue, checkpoint-rollback, add-integration, migrate-database, polish-ui, implement-skyrope-phase, verify-godot-change, add-skyrope-content
+
+## People and systems
+
+- Owner: Chris O'Neal
+- Hosting: homelab Linux + Tailscale; Docker Compose (`postgres`, `backend`, `gameserver-chN`, `db-backup`) from Phase 11/16
+- Issue/PR: https://github.com/icors2/Action-Story. Docs lookup: Context7
+
+## Pointers
+
+- Spec: `BUILD_SCOPE.md`
+- Decisions: `.cursor/rules/decisions.mdc` + `docs/DECISIONS.md`
+- Conventions: `.cursor/rules/conventions.mdc`
+- Lessons: `.cursor/rules/lessons.mdc`
+- Security: `.cursor/rules/20-security.mdc` + `assets/checklists/security-review.md`
+- Verify Cursor layout: `npm run verify`
+- Verify game: `make test` (Phase 0+)
