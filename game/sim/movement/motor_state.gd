@@ -11,6 +11,8 @@ var jump_buffer: int = 0
 var drop_through: int = 0
 var climb_x: float = 0.0
 var knockback: int = 0
+var collision_mask: int = 0
+var regrab: int = 0
 
 
 func encode(buf: StreamPeerBuffer) -> void:
@@ -25,6 +27,8 @@ func encode(buf: StreamPeerBuffer) -> void:
 	buf.put_u8(drop_through)
 	buf.put_u8(knockback)
 	buf.put_float(climb_x)
+	buf.put_u32(collision_mask)
+	buf.put_u8(regrab)
 
 
 static func decode(buf: StreamPeerBuffer) -> MotorState:
@@ -38,4 +42,6 @@ static func decode(buf: StreamPeerBuffer) -> MotorState:
 	s.drop_through = buf.get_u8()
 	s.knockback = buf.get_u8()
 	s.climb_x = buf.get_float()
+	s.collision_mask = buf.get_u32()
+	s.regrab = buf.get_u8()
 	return s

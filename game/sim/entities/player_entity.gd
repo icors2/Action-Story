@@ -1,6 +1,6 @@
 class_name PlayerEntity
 extends Entity
-## Authoritative player body. Phase 0: spawn + snapshot only.
+## Authoritative player body. Movement is MovementMotor + InputQueue.
 
 var owner_peer: int = 0
 var input_queue: InputQueue = InputQueue.new()
@@ -12,6 +12,9 @@ func _ready() -> void:
 	kind = Const.EntityKind.PLAYER
 	collision_layer = Const.bit(Const.Layer.PLAYER_BODY)
 	collision_mask = Const.mask([Const.Layer.WORLD, Const.Layer.PLATFORM_ONEWAY] as Array[int])
+	floor_max_angle = deg_to_rad(1.0)
+	floor_snap_length = 4.0
+	safe_margin = 0.08
 	super._ready()
 	motor = get_component(&"MovementMotor") as MovementMotor
 	if motor == null:

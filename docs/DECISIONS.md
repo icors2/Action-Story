@@ -122,10 +122,26 @@ ADR-lite. Status: Proposed | Accepted | Superseded.
 - **Status:** Accepted
 - **Decision:** `game/` builds both via export presets and feature tags. Pinned in `.godot-version`.
 
+## D-021: Movement feel v1
+
+- **Date:** 2026-10-24
+- **Status:** Accepted
+- **Context:** Phase 1 acceptance: jump ~3.5 tiles, snappy run, usable ropes.
+- **Decision:** `stats.json` movement: walk 125, accel 1400, decel 1800, air_control 0.2, jump_velocity -330, gravity 1000, max_fall 600, climb_speed 80, coyote 5, jump buffer 6, drop-through 12 ticks.
+- **Revisit when:** Play-test says jump/run feels wrong.
+
+## D-020: Phase 1 default map is map_test_movement
+
+- **Date:** 2026-10-24
+- **Status:** Accepted
+- **Context:** LOCAL play-test must boot the movement yard.
+- **Decision:** `CharacterRecord.new_default` map_id is `map_test_movement`. `map_test_flat` remains for regression.
+- **Revisit when:** Phase 5 town maps ship.
+
 ## D-018: Phase 0 default map is map_test_flat
 
 - **Date:** 2026-10-17
-- **Status:** Accepted
+- **Status:** Superseded by D-020
 - **Context:** `CharacterRecord.new_default` in the spec used `town_bramblewick`, which does not exist until Phase 5.
 - **Decision:** Default `map_id` is `map_test_flat` until town content exists.
 - **Revisit when:** Phase 5 maps ship.

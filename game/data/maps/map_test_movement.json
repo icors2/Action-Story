@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "maps": [
+    {
+      "id": "map_test_movement",
+      "name": "Test Movement",
+      "scene": "res://content/maps/map_test_movement.tscn",
+      "bounds": [0, 0, 1280, 720],
+      "return_map": "map_test_movement",
+      "flags": { "town": false }
+    }
+  ]
+}

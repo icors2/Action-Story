@@ -79,7 +79,7 @@ Tick a phase only when **all** of its acceptance criteria pass.
 | # | Phase | Milestone | Status |
 |---|-------|-----------|--------|
 | 0 | Project setup, tooling, CI, skeleton architecture | — | - [x] |
-| 1 | Core movement & physics (one-way platforms, ropes, ladders) | — | - [ ] |
+| 1 | Core movement & physics (one-way platforms, ropes, ladders) | — | - [x] |
 | 2 | Combat & mobs | — | - [ ] |
 | 3 | RPG systems (stats, leveling, AP/SP, classes, skills) | — | - [ ] |
 | 4 | Items, inventory, equipment, drops, currency | — | - [ ] |
@@ -3880,19 +3880,19 @@ Tasks are ordered. Each one is small enough for a single commit. A task is done 
 **Deliverables:** `PlayerEntity` (sim), `MovementMotor` + `ClimbQuery` (§9.15), `PlayerView` (client), `InputSampler` + `Predictor` (§9.21), `Keybinds`, a movement test map, `FollowCamera` (basic).
 
 **Tasks**
-- [ ] 1.1 Create a placeholder TileSet (16×16 tiles, generated colored squares) with two physics layers: solid (layer `world`) and one-way (layer `platform_oneway`, one-way collision enabled on the tile polygons).
-- [ ] 1.2 Build `content/maps/map_test_movement.tscn`: a ground `TileMapLayer` ("Ground"), a `TileMapLayer` named "Platforms" in group `oneway_platforms` with 3–4 stacked one-way platforms, 1 rope and 1 ladder (`Area2D` on layer `climbable` with a tall `CollisionShape2D`, script `climbable.gd` exporting `kind: rope|ladder`), walls at the map edges, and a `Marker2D` named `spawn` in group `portals`. Add its `maps/*.json` entry.
-- [ ] 1.3 Implement `Entity` and `Component` (§9.14) and `PlayerEntity` (`CharacterBody2D`, capsule ~12×28, layer `player_body`, mask `world | platform_oneway`), with `InputQueue` (jitter buffer: `push_frames`, `pop_for_tick`, `last_processed_seq`, repeat-last-input up to 6 ticks).
-- [ ] 1.4 Implement `MovementMotor` platformer state: accel/decel, gravity, max fall, jump with coyote time and jump buffer, facing. All tunables are `@export`s, with defaults also mirrored in `data/stats.json` → `movement` block.
-- [ ] 1.5 Implement drop-through: Down + Jump while standing on a node in group `oneway_platforms` disables the one-way mask for `drop_through_ticks`. Ensure solid ground can't be dropped through.
-- [ ] 1.6 Implement `ClimbQuery` and the climb state: Up/Down near a climbable grabs it (snap x to the climbable's x), moves vertically at `climb_speed`, Jump + Left/Right jumps off, climbing past the top steps onto the platform above, and climbing down onto ground exits. Platforms are ignored while climbing.
-- [ ] 1.7 Implement `MotorState` capture/restore (§9.15) including the collision-mask state. Test that capture → step N → restore → step N yields identical positions (determinism test).
-- [ ] 1.8 Implement `client/input/keybinds.gd` registering default actions (§15.3) via `InputMap` at startup, plus `InputSampler` producing `InputFrame`s with jump edge detection.
-- [ ] 1.9 Implement the client world view: `client_main` loads the same map scene for visuals + collision, spawns a **local predicted** `PlayerEntity` copy driven by `Predictor`, and a `PlayerView` (placeholder sprite: a colored rectangle with a "facing" nose and simple animation states idle/walk/jump/fall/climb via `AnimatedSprite2D` with generated frames) that follows the predicted body.
-- [ ] 1.10 Wire reconciliation in LOCAL mode: on each snapshot, `Predictor.reconcile(last_processed_seq, self_state)`. Add a debug counter for corrections > 1 px (should be ~0 in LOCAL).
-- [ ] 1.11 Add a basic `FollowCamera` (Camera2D with position smoothing, limits from the map JSON `bounds`).
-- [ ] 1.12 Add the F3 debug overlay (client-only): FPS, tick, motor state, position, velocity, pending inputs, correction count.
-- [ ] 1.13 Tune feel: walk speed, jump height (~3.5 tiles), fall speed, rope speed. Record the final values in `stats.json` and in the Decision Log ("Movement feel v1").
+- [x] 1.1 Create a placeholder TileSet (16×16 tiles, generated colored squares) with two physics layers: solid (layer `world`) and one-way (layer `platform_oneway`, one-way collision enabled on the tile polygons).
+- [x] 1.2 Build `content/maps/map_test_movement.tscn`: a ground `TileMapLayer` ("Ground"), a `TileMapLayer` named "Platforms" in group `oneway_platforms` with 3–4 stacked one-way platforms, 1 rope and 1 ladder (`Area2D` on layer `climbable` with a tall `CollisionShape2D`, script `climbable.gd` exporting `kind: rope|ladder`), walls at the map edges, and a `Marker2D` named `spawn` in group `portals`. Add its `maps/*.json` entry.
+- [x] 1.3 Implement `Entity` and `Component` (§9.14) and `PlayerEntity` (`CharacterBody2D`, capsule ~12×28, layer `player_body`, mask `world | platform_oneway`), with `InputQueue` (jitter buffer: `push_frames`, `pop_for_tick`, `last_processed_seq`, repeat-last-input up to 6 ticks).
+- [x] 1.4 Implement `MovementMotor` platformer state: accel/decel, gravity, max fall, jump with coyote time and jump buffer, facing. All tunables are `@export`s, with defaults also mirrored in `data/stats.json` → `movement` block.
+- [x] 1.5 Implement drop-through: Down + Jump while standing on a node in group `oneway_platforms` disables the one-way mask for `drop_through_ticks`. Ensure solid ground can't be dropped through.
+- [x] 1.6 Implement `ClimbQuery` and the climb state: Up/Down near a climbable grabs it (snap x to the climbable's x), moves vertically at `climb_speed`, Jump + Left/Right jumps off, climbing past the top steps onto the platform above, and climbing down onto ground exits. Platforms are ignored while climbing.
+- [x] 1.7 Implement `MotorState` capture/restore (§9.15) including the collision-mask state. Test that capture → step N → restore → step N yields identical positions (determinism test).
+- [x] 1.8 Implement `client/input/keybinds.gd` registering default actions (§15.3) via `InputMap` at startup, plus `InputSampler` producing `InputFrame`s with jump edge detection.
+- [x] 1.9 Implement the client world view: `client_main` loads the same map scene for visuals + collision, spawns a **local predicted** `PlayerEntity` copy driven by `Predictor`, and a `PlayerView` (placeholder sprite: a colored rectangle with a "facing" nose and simple animation states idle/walk/jump/fall/climb via `AnimatedSprite2D` with generated frames) that follows the predicted body.
+- [x] 1.10 Wire reconciliation in LOCAL mode: on each snapshot, `Predictor.reconcile(last_processed_seq, self_state)`. Add a debug counter for corrections > 1 px (should be ~0 in LOCAL).
+- [x] 1.11 Add a basic `FollowCamera` (Camera2D with position smoothing, limits from the map JSON `bounds`).
+- [x] 1.12 Add the F3 debug overlay (client-only): FPS, tick, motor state, position, velocity, pending inputs, correction count.
+- [x] 1.13 Tune feel: walk speed, jump height (~3.5 tiles), fall speed, rope speed. Record the final values in `stats.json` and in the Decision Log ("Movement feel v1").
 
 **Acceptance criteria**
 - You can walk, jump, land on one-way platforms from below, drop through them with Down+Jump, and can't drop through solid ground.

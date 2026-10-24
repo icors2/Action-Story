@@ -15,7 +15,7 @@ var sp: int = 0
 var hp: int = 50
 var mp: int = 5
 var currency: int = 0
-var map_id: StringName = &"map_test_flat"
+var map_id: StringName = &"map_test_movement"
 var spawn_portal: StringName = &"spawn"
 var skills: Dictionary = {}
 var inventory: Dictionary = {"equip": [], "use": [], "etc": []}
@@ -29,7 +29,7 @@ static func new_default(char_name: String) -> CharacterRecord:
 	var r := CharacterRecord.new()
 	r.name = char_name
 	r.skills = {"novice_strike": 1}
-	r.map_id = &"map_test_flat"
+	r.map_id = &"map_test_movement"
 	return r
 
 
@@ -72,7 +72,7 @@ static func from_dict(raw: Dictionary) -> CharacterRecord:
 	r.hp = int(d.get("hp", 50))
 	r.mp = int(d.get("mp", 5))
 	r.currency = int(d.get("currency", 0))
-	r.map_id = StringName(d.get("map_id", "map_test_flat"))
+	r.map_id = StringName(d.get("map_id", "map_test_movement"))
 	r.spawn_portal = StringName(d.get("spawn_portal", "spawn"))
 	r.skills = d.get("skills", {})
 	r.inventory = d.get("inventory", r.inventory)

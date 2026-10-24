@@ -7,6 +7,7 @@ func test_registry_loaded() -> void:
 	assert_true(DataRegistry.mobs.has(&"puddlet"))
 	assert_true(DataRegistry.skills.has(&"novice_strike"))
 	assert_true(DataRegistry.maps.has(&"map_test_flat"))
+	assert_true(DataRegistry.maps.has(&"map_test_movement"))
 
 
 func test_level_value_pair_interpolates() -> void:

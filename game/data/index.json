@@ -4,5 +4,5 @@
   "level_table": "res://data/level_table.json",
   "skills": ["res://data/skills/novice.json"],
   "mobs": ["res://data/mobs/field_mobs.json"],
-  "maps": ["res://data/maps/map_test_flat.json"]
+  "maps": ["res://data/maps/map_test_flat.json", "res://data/maps/map_test_movement.json"]
 }

@@ -4,10 +4,12 @@ Ops notes. Expand in Phase 9 (netsim) and Phase 16 (deploy).
 
 ## Local
 
-- Client (LOCAL): `make run`
+- Client (LOCAL): `make run` — Phase 1 map is `map_test_movement` (arrows/WASD, Space jump)
 - Dedicated server: `make server` (UDP 7777)
 - Tests: `make test`
 - Data: `make validate`
+
+Windows: `& "C:\path\to\Godot_v4.7.2-stable_win64.exe" --path game` from the repo root. Import `game/` once first.
 
 ## Env names
 

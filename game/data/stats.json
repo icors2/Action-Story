@@ -15,7 +15,15 @@
   "invincibility_after_hit_s": 1.2,
   "movement": {
     "walk_speed": 125,
+    "accel": 1400,
+    "decel": 1800,
+    "air_control": 0.2,
     "jump_velocity": -330,
-    "gravity": 1000
+    "gravity": 1000,
+    "max_fall": 600,
+    "climb_speed": 80,
+    "coyote_ticks": 5,
+    "jump_buffer_ticks": 6,
+    "drop_through_ticks": 12
   }
 }

@@ -9,7 +9,7 @@ Agents update this file. It is the living snapshot of the project.
 ## Status
 
 - **Status:** active
-- **Updated:** 2026-10-17
+- **Updated:** 2026-10-24
 
 ## Project
 
@@ -23,14 +23,15 @@ Agents update this file. It is the living snapshot of the project.
 
 ## Current focus
 
-- **Phase 0 (M0) complete.** Skeleton boots LOCAL (`map_test_flat` eid=1) and SERVER (`Channel 1 ready`). 20 GUT tests pass.
-- **Stopped for play-test.** Do not start Phase 1 until Chris says continue.
-- Next phase: **1 — movement & physics** (`implement-skyrope-phase`).
+- **Phase 1 complete. Stopped for play-test.** Default map is `map_test_movement`.
+- LOCAL: walk/jump/drop-through/climb. F3 overlay. Corrections should stay ~0.
+- Do not start Phase 2 until Chris play-tests movement.
+- Next phase: **2 — combat & mobs** (`implement-skyrope-phase`).
 - Source of truth: `BUILD_SCOPE.md`. One phase at a time.
 
 ## Open questions
 
-- Play-test Phase 0 (LOCAL grey floor + headless server) before Phase 1.
+- Play-test Phase 1 movement before Phase 2.
 - Redis deferred to Phase 12+ (Decision Log required).
 - Public HTTPS / Caddy profile deferred until leaving Tailscale.
 

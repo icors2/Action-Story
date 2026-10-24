@@ -7,6 +7,13 @@ alwaysApply: false
 
 Record choices that later agents should not silently reverse. Newest first. Full ADRs live in `docs/DECISIONS.md` after Phase 0.
 
+## 2026-10-24 — Movement feel v1 / default map
+
+- **Decision (D-020):** Default `CharacterRecord` map is `map_test_movement`.
+- **Decision (D-021):** Movement tunables live in `data/stats.json` (walk 125, jump -330, gravity 1000, climb 80).
+- **Why:** Phase 1 play-test boots the yard; designers tweak feel in JSON.
+- **Revisit when:** Town maps (Phase 5) or a feel pass after play-test.
+
 ## 2026-10-17 — Canonical GitHub repo
 
 - **Decision (D-019):** The project lives at https://github.com/icors2/Action-Story. `origin` points there. Issues, PRs, Actions, and releases use this repo — not Cursor_Forge.
