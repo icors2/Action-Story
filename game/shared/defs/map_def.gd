@@ -6,6 +6,7 @@ var scene_path: String = ""
 var return_map: StringName = &""
 var flags: Dictionary = {}
 var bounds: Rect2 = Rect2(0, 0, 640, 360)
+var spawns: Array[Dictionary] = []
 
 
 static func from_dict(d: Dictionary) -> MapDef:
@@ -18,4 +19,8 @@ static func from_dict(d: Dictionary) -> MapDef:
 	var b: Array = d.get("bounds", [0, 0, 640, 360])
 	if b.size() >= 4:
 		m.bounds = Rect2(float(b[0]), float(b[1]), float(b[2]) - float(b[0]), float(b[3]) - float(b[1]))
+	m.spawns = []
+	for entry: Variant in d.get("spawns", []):
+		if entry is Dictionary:
+			m.spawns.append(entry)
 	return m

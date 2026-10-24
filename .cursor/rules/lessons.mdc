@@ -7,6 +7,18 @@ alwaysApply: false
 
 Write the mistake, the signal, and the fix. Newest first.
 
+## 2026-10-24 — Spawn groups before in-tree
+
+- **What happened:** `Spawner` captured `Marker2D` groups during `MapInstance.setup` before `add_child`.
+- **Signal:** `spawner puddlet has no markers in group spawn_puddlet` even though the tscn has them.
+- **Fix:** Read markers in `populate()` after the map is in the SceneTree. `is_in_group` is empty off-tree.
+
+## 2026-10-24 — ColorRect is not Node2D
+
+- **What happened:** `MobView._art: Node2D` assigned a fallback `ColorRect`.
+- **Signal:** `Parse Error: Value of type "ColorRect" cannot be assigned to a variable of type "Node2D"` then `MobView.new()` missing.
+- **Fix:** Typed art holders that may be Control or Node2D must be `Node`.
+
 ## 2026-10-17 — Godot 4.7 on old CPUs
 
 - **What happened:** Official `Godot_v4.7.2-stable_linux.x86_64` aborted immediately (`SIGABRT`).

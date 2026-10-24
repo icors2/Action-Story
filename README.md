@@ -14,7 +14,7 @@ git clone https://github.com/icors2/Action-Story.git
 # Install Godot 4.7.2 and put `godot` on PATH (or run scripts/install-cloud-env.sh)
 make import          # first-time import
 make test            # GUT headless
-make run             # LOCAL client (map_test_movement in Phase 1)
+make run             # LOCAL client (map_test_movement, Phase 2 combat)
 make server          # headless dedicated server
 make validate        # JSON Schema + index check
 ```

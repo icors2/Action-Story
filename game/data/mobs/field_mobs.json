@@ -23,6 +23,29 @@
       "scene": "res://content/sprites/mobs/puddlet_view.tscn",
       "body_size": [24, 18],
       "respawn_s": 8
+    },
+    {
+      "id": "capshroom",
+      "name": "Capshroom",
+      "level": 3,
+      "hp": 50,
+      "mp": 0,
+      "weapon_attack": 12,
+      "defense": 4,
+      "accuracy": 12,
+      "avoid": 4,
+      "exp": 10,
+      "move_speed": 30,
+      "jump": true,
+      "behavior": "patrol_aggro_on_sight",
+      "aggro_range": 120,
+      "chase_speed": 50,
+      "contact_damage": true,
+      "knockback_resist": 0.2,
+      "drop_table": "dt_capshroom",
+      "scene": "res://content/sprites/mobs/capshroom_view.tscn",
+      "body_size": [20, 24],
+      "respawn_s": 10
     }
   ]
 }

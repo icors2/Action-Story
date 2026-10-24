@@ -20,6 +20,9 @@ enum Layer {
 
 enum InvTab { EQUIP, USE, ETC }
 
+enum Anim { IDLE, WALK, AIR, CLIMB, ATTACK, HURT, DEAD }
+
+const FLAG_FACE_LEFT := 1
 const GROUP_ONEWAY := &"oneway_platforms"
 const GROUP_PORTALS := &"portals"
 const INVENTORY_SLOTS_PER_TAB := 24

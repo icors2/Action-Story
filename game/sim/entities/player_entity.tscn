@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://sim/entities/player_entity.gd" id="1"]
 [ext_resource type="Script" path="res://sim/movement/movement_motor.gd" id="2"]
+[ext_resource type="Script" path="res://sim/components/stats_component.gd" id="3"]
+[ext_resource type="Script" path="res://sim/components/health_component.gd" id="4"]
+[ext_resource type="Script" path="res://sim/components/hurtbox.gd" id="5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_body"]
 radius = 6.0
 height = 28.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(14, 28)
 
 [node name="PlayerEntity" type="CharacterBody2D"]
 collision_layer = 4
@@ -17,3 +23,20 @@ shape = SubResource("CapsuleShape2D_body")
 
 [node name="MovementMotor" type="Node" parent="."]
 script = ExtResource("2")
+
+[node name="StatsComponent" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("4")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 16
+collision_mask = 0
+monitoring = false
+monitorable = true
+script = ExtResource("5")
+team_layer = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurt")

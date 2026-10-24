@@ -7,7 +7,11 @@
       "scene": "res://content/maps/map_test_movement.tscn",
       "bounds": [0, 0, 1280, 720],
       "return_map": "map_test_movement",
-      "flags": { "town": false }
+      "flags": { "town": false },
+      "spawns": [
+        { "mob": "puddlet", "marker_group": "spawn_puddlet", "max_alive": 2 },
+        { "mob": "capshroom", "marker_group": "spawn_capshroom", "max_alive": 1 }
+      ]
     }
   ]
 }

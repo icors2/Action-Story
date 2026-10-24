@@ -26,6 +26,10 @@ static func use_item(tab: int, slot: int) -> Intent:
 	return make(Protocol.IntentType.USE_ITEM, [tab, slot])
 
 
+static func respawn() -> Intent:
+	return make(Protocol.IntentType.RESPAWN, [])
+
+
 func to_wire() -> Array:
 	return [type, client_seq, args]
 

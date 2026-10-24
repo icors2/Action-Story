@@ -51,3 +51,15 @@ shape = SubResource("RectangleShape2D_ladder")
 [node name="spawn" type="Marker2D" parent="."]
 position = Vector2(96, 656)
 groups = ["portals"]
+
+[node name="spawn_puddlet_a" type="Marker2D" parent="."]
+position = Vector2(240, 656)
+groups = ["spawn_puddlet"]
+
+[node name="spawn_puddlet_b" type="Marker2D" parent="."]
+position = Vector2(480, 656)
+groups = ["spawn_puddlet"]
+
+[node name="spawn_capshroom_a" type="Marker2D" parent="."]
+position = Vector2(560, 400)
+groups = ["spawn_capshroom"]

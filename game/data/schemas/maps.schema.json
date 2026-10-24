@@ -18,7 +18,20 @@
             "items": { "type": "number" }
           },
           "return_map": { "type": "string" },
-          "flags": { "type": "object" }
+          "flags": { "type": "object" },
+          "spawns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["mob", "marker_group", "max_alive"],
+              "properties": {
+                "mob": { "type": "string" },
+                "marker_group": { "type": "string" },
+                "max_alive": { "type": "integer" },
+                "respawn_ticks": { "type": "integer" }
+              }
+            }
+          }
         }
       }
     }

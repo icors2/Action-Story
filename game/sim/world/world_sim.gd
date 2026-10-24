@@ -30,8 +30,9 @@ func step() -> void:
 
 
 func spawn_player(record: CharacterRecord, owner_peer: int) -> int:
+	var eid: int = ids.next()
 	var map: MapInstance = get_or_create_map(record.map_id)
-	var player: PlayerEntity = map.spawn_player(record, owner_peer, ids.next())
+	var player: PlayerEntity = map.spawn_player(record, owner_peer, eid)
 	_players[player.eid] = player
 	_player_map[player.eid] = map.map_id
 	return player.eid
@@ -85,6 +86,7 @@ func get_or_create_map(map_id: StringName) -> MapInstance:
 	var inst: MapInstance = MAP_INSTANCE_SCENE.instantiate()
 	inst.setup(self, def)
 	add_child(inst)
+	inst.start_spawners()
 	_maps[map_id] = inst
 	return inst
 

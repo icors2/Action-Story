@@ -13,6 +13,9 @@
   "mp_regen_interval_s": 10,
   "death_exp_loss_pct": 0.05,
   "invincibility_after_hit_s": 1.2,
+  "base_weapon_attack": 80,
+  "base_defense": 0,
+  "mob_skill_attack": 40,
   "movement": {
     "walk_speed": 125,
     "accel": 1400,

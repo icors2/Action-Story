@@ -54,4 +54,6 @@ func _on_sim_event(map_id: StringName, event: SimEvent) -> void:
 		return
 	if event.scope == Protocol.Scope.PLAYER and event.target_eid != self_eid:
 		return
+	if Config.local_codec_roundtrip:
+		event = SimEvent.from_wire(event.to_wire())
 	event_received.emit(event)

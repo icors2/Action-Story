@@ -1,5 +1,30 @@
 # Changelog
 
+## Phase 2 — Combat & mobs (2026-10-24)
+
+Basic attack, respawning mobs, contact damage, death/respawn. No loot or EXP yet.
+
+- `DamageFormula` + `HitQuery` + `CombatResolver` (sim-only). `novice_strike` via Ctrl or J.
+- `StatsComponent` / `HealthComponent` / `Hurtbox`. Novice `base_weapon_attack` 80 in `stats.json` (D-022).
+- `MobEntity` + `MobBrain`: Puddlet (patrol, aggro on hit) and Capshroom (aggro on sight, jumps).
+- Spawners on `map_test_movement`: 2 Puddlets on the ground, 1 Capshroom on the mid platform. Respawn from data (`respawn_s`).
+- Client: interpolated `MobView`, damage numbers, 3 s HP bars, hit flash, cosmetic attack, Respawn prompt.
+- Player death → 50% HP at the map spawn. EXP penalty is Phase 3.
+- GUT: 49 tests (formula, health, cast timing, hit query, spawner, snapshot size).
+
+### Play-test script (M2 combat)
+
+1. Checkout `cursor/phase-2-combat-ca25` (or re-download the ZIP). Import once: `godot --headless --import --path game`
+2. Play: `godot --path game` (Windows: `& "C:\path\to\Godot_v4.7.2-stable_win64.exe" --path game`)
+3. Expect: `spawned 3 mobs on map_test_movement`, `entered_map map_test_movement eid=1`. Two blue Puddlets on the floor, one red Capshroom on a middle platform.
+4. Walk up to a Puddlet. **Ctrl or J** (or gamepad X) swings. You stop on the ground to attack. Numbers float up; a red HP bar appears for 3 s. Puddlet flinches and chases. About **3–5 hits** should kill it.
+5. Dead mobs vanish after a short pause and come back after ~8–10 s.
+6. Touch a mob: knockback, blink invincibility (~1.2 s), F3 HP drops. Repeat until you die. **Respawn** button or **R** — you return at the left spawn with half HP.
+7. Capshroom should notice you and hop if you are above it.
+8. Overlay `corrections>1px` should stay ~0 while walking in LOCAL.
+
+Stop here. Next: Phase 3 RPG systems (EXP, levels, AP/SP). Do not expect loot yet.
+
 ## Phase 1 — Movement (2026-10-24)
 
 Walk, jump, one-way drop-through, ropes/ladders, LOCAL prediction.

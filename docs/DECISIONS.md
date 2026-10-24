@@ -2,6 +2,15 @@
 
 ADR-lite. Status: Proposed | Accepted | Superseded.
 
+## D-022: Novice weapon attack 80
+
+- **Date:** 2026-10-24
+- **Status:** Accepted
+- **Context:** Phase 2 acceptance: a fresh Novice should kill a Puddlet (35 HP) in 3–5 hits. Damage must come from `DamageFormula` + JSON.
+- **Decision:** `stats.json` `base_weapon_attack` is 80. `base_defense` 0. Mob contact uses `weapon_attack` as primary, `accuracy` as secondary, and `mob_skill_attack` 40.
+- **Consequences:** Changing those JSON fields changes damage with no code edits.
+- **Revisit when:** Phase 3 class/AP pass or play-test says swings feel too weak/strong.
+
 ## D-019: Canonical GitHub repo is icors2/Action-Story
 
 - **Date:** 2026-10-17

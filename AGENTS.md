@@ -81,7 +81,7 @@ Cursor does not keep chat history as memory. **Rules are the memory.**
 - **Run:** `make run` (LOCAL client). `make server` (headless dedicated server). Editor: open the `game/` folder in Godot.
 - **Test:** `make test` (GUT headless). Data: `python3 tools/build_index.py --check && python3 tools/validate_data.py`. Backend (Phase 11+): `cd backend && uv run pytest -q`. Cursor layout: `npm run verify`.
 - **Lint:** Godot `untyped_declaration` is an error. Keep `.gd` ≤ 400 lines.
-- **Verify a UI change:** Phase 1 is `map_test_movement` — walk/jump/climb in the Godot window. Log: `entered_map map_test_movement eid=1`. Also `godot --headless --path game --quit-after 120`.
+- **Verify a UI change:** Phase 2 is `map_test_movement` — walk/jump/climb, fight 2 Puddlets + 1 Capshroom (Ctrl/J). Log: `spawned 3 mobs` and `entered_map map_test_movement eid=1`. Also `godot --headless --path game --quit-after 120`.
 - **Env vars (names):** `SKYROPE_DEV_TICKETS`, `BACKEND_URL`, `DATABASE_URL`, `SERVICE_TOKEN`, `TICKET_HMAC_SECRET`, `GITHUB_PERSONAL_ACCESS_TOKEN`, `CONTEXT7_API_KEY`. Values in local `.env` and/or Cursor Cloud Secrets — never in git.
 - **MCP enabled:** `context7` (Godot/FastAPI docs), `github` (issues/PRs). Reload MCP after setting secrets. Cloud Agents also need dashboard MCP.
 - **Cloud install:** `.cursor/environment.json` downloads Godot 4.7.2 and uv if missing. Long-running processes belong in `start` / `terminals` after there is an app to run.

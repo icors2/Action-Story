@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://sim/entities/mob_entity.gd" id="1"]
+[ext_resource type="Script" path="res://sim/components/health_component.gd" id="2"]
+[ext_resource type="Script" path="res://sim/ai/mob_brain.gd" id="3"]
+[ext_resource type="Script" path="res://sim/components/hurtbox.gd" id="4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_body"]
+size = Vector2(24, 18)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hurt"]
+size = Vector2(24, 18)
+
+[node name="MobEntity" type="CharacterBody2D"]
+collision_layer = 8
+collision_mask = 3
+script = ExtResource("1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_body")
+
+[node name="HealthComponent" type="Node" parent="."]
+script = ExtResource("2")
+
+[node name="MobBrain" type="Node" parent="."]
+script = ExtResource("3")
+
+[node name="Hurtbox" type="Area2D" parent="."]
+collision_layer = 32
+collision_mask = 0
+monitoring = false
+monitorable = true
+script = ExtResource("4")
+team_layer = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+shape = SubResource("RectangleShape2D_hurt")

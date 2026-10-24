@@ -80,7 +80,7 @@ Tick a phase only when **all** of its acceptance criteria pass.
 |---|-------|-----------|--------|
 | 0 | Project setup, tooling, CI, skeleton architecture | — | - [x] |
 | 1 | Core movement & physics (one-way platforms, ropes, ladders) | — | - [x] |
-| 2 | Combat & mobs | — | - [ ] |
+| 2 | Combat & mobs | — | - [x] |
 | 3 | RPG systems (stats, leveling, AP/SP, classes, skills) | — | - [ ] |
 | 4 | Items, inventory, equipment, drops, currency | — | - [ ] |
 | 5 | Maps, portals, tilemaps, parallax, camera | — | - [ ] |
@@ -3919,18 +3919,18 @@ Tasks are ordered. Each one is small enough for a single commit. A task is done 
 **Deliverables:** `HealthComponent`, `StatsComponent`, `Hurtbox`, `HitQuery`, `CombatResolver`, `DamageFormula`, `MobEntity` + `MobBrain`, `Spawner`, player action state machine, `MobView`, damage numbers, HP bars.
 
 **Tasks**
-- [ ] 2.1 Implement `StatsComponent` and `HealthComponent` (§9.14), plus `StatsConfig` fields used by the damage formula.
-- [ ] 2.2 Implement `DamageFormula` (§9.18) with full unit tests (§9.25).
-- [ ] 2.3 Implement `Hurtbox` and `HitQuery` (§9.14). Player hurtbox on layer `player_hurtbox`, mob hurtbox on `mob_hurtbox`.
-- [ ] 2.4 Implement `TickStateMachine` + `IdleState`, `CastingState`, `HurtState`, `DeadState` (§9.16) on `PlayerEntity`. `PlayerEntity.try_cast(intent)` validates (state can act, skill known, cooldown ready, MP) and transitions to Casting, or rejects with a reason.
-- [ ] 2.5 Add `novice_strike` (basic attack) to `skills/novice.json`. `CombatResolver.resolve_skill_hit()` → `HitQuery` → `DamageFormula` → `HealthComponent.apply_damage` → emit `DAMAGE` events `[attacker_eid, target_eid, amount, crit, hit_index]`.
-- [ ] 2.6 Implement `MobEntity` (`CharacterBody2D`, layer `mob_body`, mask `world | platform_oneway`; mobs never collide with players physically) with `MobBrain` (§9.17): patrol edge-to-edge, idle pauses, flinch on hit, aggro → chase on the same platform, `mob_wall` respect.
-- [ ] 2.7 Contact damage: each tick, mobs with `contact_damage` query overlapping player hurtboxes. On overlap, damage the player (mob attack vs player defense), apply knockback away from the mob, and grant invincibility ticks (`invincibility_after_hit_s`). The player enters `HurtState` briefly.
-- [ ] 2.8 Implement mob death: `DIED` event, despawn after a 30-tick death animation window, and the `Spawner` (per `spawns[]` entry: marker group, `max_alive`, `respawn_ticks`, random marker selection via sim RNG).
-- [ ] 2.9 Implement `EntityState` + full snapshot encoding/decoding (§9.10) with mob anim/facing/hp_pct. The client `WorldView` spawns/despawns `MobView`s from snapshots and interpolates them with `InterpolationBuffer` (in LOCAL too).
-- [ ] 2.10 Client feedback: `PlayerView` plays the attack animation immediately when the attack key is pressed (cosmetic), and the client sends `Intent.cast`. On `INTENT_REJECTED`, cancel the cosmetic animation. Floating damage numbers (pooled, stacked upward for multi-hits, distinct crit style), mob HP bar shown for 3 s after damage, hit flash, 2–3 frame hit-stop on the attacker's view only.
-- [ ] 2.11 Player death: HP 0 → `DeadState` → "Respawn" prompt → `RESPAWN` intent → respawn at the map's `return_map` spawn with 50% HP (EXP penalty comes in Phase 3).
-- [ ] 2.12 Add 2 mob types to data (`puddlet`: patrol, aggro on hit; `capshroom`: patrol, aggro on sight, jumps) with placeholder views. Add them to the test map with spawners.
+- [x] 2.1 Implement `StatsComponent` and `HealthComponent` (§9.14), plus `StatsConfig` fields used by the damage formula.
+- [x] 2.2 Implement `DamageFormula` (§9.18) with full unit tests (§9.25).
+- [x] 2.3 Implement `Hurtbox` and `HitQuery` (§9.14). Player hurtbox on layer `player_hurtbox`, mob hurtbox on `mob_hurtbox`.
+- [x] 2.4 Implement `TickStateMachine` + `IdleState`, `CastingState`, `HurtState`, `DeadState` (§9.16) on `PlayerEntity`. `PlayerEntity.try_cast(intent)` validates (state can act, skill known, cooldown ready, MP) and transitions to Casting, or rejects with a reason.
+- [x] 2.5 Add `novice_strike` (basic attack) to `skills/novice.json`. `CombatResolver.resolve_skill_hit()` → `HitQuery` → `DamageFormula` → `HealthComponent.apply_damage` → emit `DAMAGE` events `[attacker_eid, target_eid, amount, crit, hit_index]`.
+- [x] 2.6 Implement `MobEntity` (`CharacterBody2D`, layer `mob_body`, mask `world | platform_oneway`; mobs never collide with players physically) with `MobBrain` (§9.17): patrol edge-to-edge, idle pauses, flinch on hit, aggro → chase on the same platform, `mob_wall` respect.
+- [x] 2.7 Contact damage: each tick, mobs with `contact_damage` query overlapping player hurtboxes. On overlap, damage the player (mob attack vs player defense), apply knockback away from the mob, and grant invincibility ticks (`invincibility_after_hit_s`). The player enters `HurtState` briefly.
+- [x] 2.8 Implement mob death: `DIED` event, despawn after a 30-tick death animation window, and the `Spawner` (per `spawns[]` entry: marker group, `max_alive`, `respawn_ticks`, random marker selection via sim RNG).
+- [x] 2.9 Implement `EntityState` + full snapshot encoding/decoding (§9.10) with mob anim/facing/hp_pct. The client `WorldView` spawns/despawns `MobView`s from snapshots and interpolates them with `InterpolationBuffer` (in LOCAL too).
+- [x] 2.10 Client feedback: `PlayerView` plays the attack animation immediately when the attack key is pressed (cosmetic), and the client sends `Intent.cast`. On `INTENT_REJECTED`, cancel the cosmetic animation. Floating damage numbers (pooled, stacked upward for multi-hits, distinct crit style), mob HP bar shown for 3 s after damage, hit flash, 2–3 frame hit-stop on the attacker's view only.
+- [x] 2.11 Player death: HP 0 → `DeadState` → "Respawn" prompt → `RESPAWN` intent → respawn at the map's `return_map` spawn with 50% HP (EXP penalty comes in Phase 3).
+- [x] 2.12 Add 2 mob types to data (`puddlet`: patrol, aggro on hit; `capshroom`: patrol, aggro on sight, jumps) with placeholder views. Add them to the test map with spawners.
 
 **Acceptance criteria**
 - Pressing attack near a mob damages it. Damage numbers appear and the HP bar drops. Mobs flinch, chase, and die, then respawn after their timer.
@@ -3947,6 +3947,9 @@ Tasks are ordered. Each one is small enough for a single commit. A task is done 
 - Firing damage from the animation (`AnimationPlayer` method tracks). The sim decides timing via ticks, and the view just animates.
 - Global `randf()` in combat makes tests and replays flaky. Use `sim.rng`.
 - Forgetting to remove dead mobs from `MapInstance.entities` (memory leak, ghost hits).
+- Reading spawn `Marker2D` groups during `MapInstance.setup` before the instance is in the SceneTree: `is_in_group` is empty. Capture markers in `Spawner.populate()` after `add_child`.
+- `ColorRect` is a `Control`, not a `Node2D`. Typed view fields that hold placeholder art must be `Node`.
+- 70 × 14-byte `EntityState` plus `MotorState` header is just over 1000 bytes. Size test allows < 1100.
 
 ---
 

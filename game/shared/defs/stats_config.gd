@@ -15,6 +15,9 @@ var hp_regen_interval_s: float = 10.0
 var mp_regen_interval_s: float = 10.0
 var death_exp_loss_pct: float = 0.05
 var invincibility_after_hit_s: float = 1.2
+var base_weapon_attack: int = 80
+var base_defense: int = 0
+var mob_skill_attack: int = 40
 var movement: Dictionary = {}
 
 
@@ -35,5 +38,8 @@ static func from_dict(d: Dictionary) -> StatsConfig:
 	s.mp_regen_interval_s = float(d.get("mp_regen_interval_s", s.mp_regen_interval_s))
 	s.death_exp_loss_pct = float(d.get("death_exp_loss_pct", s.death_exp_loss_pct))
 	s.invincibility_after_hit_s = float(d.get("invincibility_after_hit_s", s.invincibility_after_hit_s))
+	s.base_weapon_attack = int(d.get("base_weapon_attack", s.base_weapon_attack))
+	s.base_defense = int(d.get("base_defense", s.base_defense))
+	s.mob_skill_attack = int(d.get("mob_skill_attack", s.mob_skill_attack))
 	s.movement = d.get("movement", {})
 	return s

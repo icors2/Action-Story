@@ -4,8 +4,11 @@ extends Node
 
 var authority: Authority
 var predictor: Predictor
+var predicted: PlayerEntity
+var player_view: PlayerView
 var _seq: int = 0
 var _jump_was_held: bool = false
+var _attack_was: bool = false
 
 
 func _ready() -> void:
@@ -16,8 +19,13 @@ func _physics_process(_delta: float) -> void:
 	if authority == null or predictor == null:
 		return
 	_seq += 1
+	_maybe_attack()
 	var f := InputFrame.new()
 	f.seq = _seq
+	if GameState.dead:
+		predictor.apply_local(f)
+		authority.submit_input(f)
+		return
 	f.move_x = clampi(roundi(Input.get_axis(&"move_left", &"move_right")), -1, 1)
 	f.move_y = clampi(roundi(Input.get_axis(&"move_up", &"move_down")), -1, 1)
 	var jump_held: bool = Input.is_action_pressed(&"jump")
@@ -28,3 +36,13 @@ func _physics_process(_delta: float) -> void:
 	_jump_was_held = jump_held
 	predictor.apply_local(f)
 	authority.submit_input(f)
+
+
+func _maybe_attack() -> void:
+	var pressed: bool = Input.is_action_pressed(&"attack")
+	if pressed and not _attack_was and not GameState.dead:
+		var facing: int = predicted.motor.facing if predicted and predicted.motor else 1
+		GameState.last_cast_seq = authority.submit_intent(Intent.cast(&"novice_strike", facing))
+		if player_view:
+			player_view.play_attack()
+	_attack_was = pressed

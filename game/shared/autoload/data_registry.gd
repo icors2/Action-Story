@@ -12,6 +12,7 @@ var mobs: Dictionary = {}
 var items: Dictionary = {}
 var drop_tables: Dictionary = {}
 var maps: Dictionary = {}
+var mob_ids: Array[StringName] = []
 var quests: Dictionary = {}
 var npcs: Dictionary = {}
 var dialogues: Dictionary = {}
@@ -39,6 +40,7 @@ func errors() -> PackedStringArray:
 func load_all() -> bool:
 	_errors.clear()
 	mobs.clear()
+	mob_ids.clear()
 	skills.clear()
 	maps.clear()
 	var index: Dictionary = _read_json(INDEX_PATH)
@@ -47,6 +49,8 @@ func load_all() -> bool:
 	stats = StatsConfig.from_dict(_read_json(String(index["stats"])))
 	level_table = PackedInt64Array(_read_json(String(index["level_table"])).get("exp_to_next", []))
 	_load_category(index, "mobs", "mobs", mobs, func(d: Dictionary) -> BaseDef: return MobDef.from_dict(d))
+	for id: StringName in mobs.keys():
+		mob_ids.append(id)
 	_load_category(index, "skills", "skills", skills, func(d: Dictionary) -> BaseDef: return SkillDef.from_dict(d))
 	_load_category(index, "maps", "maps", maps, func(d: Dictionary) -> BaseDef: return MapDef.from_dict(d))
 	validate_references()
@@ -58,6 +62,16 @@ func mob(id: StringName) -> MobDef:
 	if d == null:
 		push_error("Unknown mob id: %s" % id)
 	return d
+
+
+func mob_index(id: StringName) -> int:
+	return mob_ids.find(id)
+
+
+func mob_id_from_index(index: int) -> StringName:
+	if index < 0 or index >= mob_ids.size():
+		return &""
+	return mob_ids[index]
 
 
 func skill(id: StringName) -> SkillDef:

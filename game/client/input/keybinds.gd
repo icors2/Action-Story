@@ -9,6 +9,7 @@ static func register() -> void:
 	_axis(&"move_down", [KEY_DOWN, KEY_S])
 	_axis(&"jump", [KEY_SPACE, KEY_ALT])
 	_axis(&"attack", [KEY_CTRL, KEY_J])
+	_axis(&"respawn", [KEY_R])
 	_axis(&"pickup", [KEY_Z])
 	_axis(&"interact", [KEY_F])
 	_axis(&"toggle_inventory", [KEY_I])

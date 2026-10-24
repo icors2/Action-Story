@@ -9,6 +9,7 @@ var entities: Dictionary = {}
 
 var _map_root: Node2D
 var _entity_root: Node2D
+var _spawners: Array[Spawner] = []
 
 
 func setup(p_sim: WorldSim, p_def: MapDef) -> void:
@@ -24,15 +25,35 @@ func setup(p_sim: WorldSim, p_def: MapDef) -> void:
 	_entity_root = Node2D.new()
 	_entity_root.name = "Entities"
 	add_child(_entity_root)
+	_build_spawners()
+
+
+func start_spawners() -> void:
+	var total: int = 0
+	for s: Spawner in _spawners:
+		s.populate()
+		total += s.alive_eids.size()
+	if total > 0:
+		Log.info("sim", "spawned %d mobs on %s" % [total, map_id])
 
 
 func step(tick: int) -> void:
-	for e: Entity in entities.values():
+	var ents: Array = entities.values()
+	for e: Entity in ents:
 		if e is PlayerEntity:
 			(e as PlayerEntity).step_movement(tick)
-	for e: Entity in entities.values():
+	for e: Entity in ents:
 		if e is PlayerEntity:
 			(e as PlayerEntity).step_actions(tick)
+	for e: Entity in ents:
+		if e is MobEntity:
+			(e as MobEntity).step_ai(tick)
+	var after_ai: Array = entities.values()
+	for e: Entity in after_ai:
+		if e is MobEntity:
+			CombatResolver.resolve_contact(e as MobEntity)
+	for s: Spawner in _spawners:
+		s.step(tick)
 
 
 func spawn_player(record: CharacterRecord, owner_peer: int, eid: int) -> PlayerEntity:
@@ -48,6 +69,18 @@ func spawn_player(record: CharacterRecord, owner_peer: int, eid: int) -> PlayerE
 	return p
 
 
+func spawn_mob(mob_def: MobDef, at: Vector2) -> MobEntity:
+	var mob: MobEntity = preload("res://sim/entities/mob_entity.tscn").instantiate()
+	mob.eid = sim.ids.next()
+	mob.map = self
+	_entity_root.add_child(mob)
+	mob.apply_def(mob_def, DataRegistry.mob_index(mob_def.id))
+	mob.global_position = at
+	entities[mob.eid] = mob
+	emit(SimEvent.make(Protocol.EventType.ENTITY_SPAWNED, sim.tick, [mob.eid, Const.EntityKind.MOB, String(mob_def.id)]))
+	return mob
+
+
 func remove_entity(eid: int) -> void:
 	var e: Entity = entities.get(eid)
 	if e:
@@ -60,12 +93,20 @@ func handle_intent(player: PlayerEntity, intent: Intent) -> void:
 	match intent.type:
 		Protocol.IntentType.CAST:
 			player.try_cast(intent)
+		Protocol.IntentType.RESPAWN:
+			player.try_respawn(intent)
 		_:
 			reject(player, intent, Protocol.Reject.INVALID)
 
 
 func reject(player: PlayerEntity, intent: Intent, reason: int) -> void:
-	emit(SimEvent.make(Protocol.EventType.INTENT_REJECTED, sim.tick, [intent.client_seq, reason], Protocol.Scope.PLAYER, player.eid))
+	emit(SimEvent.make(
+		Protocol.EventType.INTENT_REJECTED,
+		sim.tick,
+		[intent.client_seq, reason],
+		Protocol.Scope.PLAYER,
+		player.eid
+	))
 
 
 func emit(event: SimEvent) -> void:
@@ -88,6 +129,23 @@ func spawn_point(portal_id: StringName) -> Vector2:
 	return Vector2(80, 280)
 
 
+func markers_in_group(group: StringName) -> Array[Vector2]:
+	var out: Array[Vector2] = []
+	if _map_root == null:
+		return out
+	var g: String = String(group)
+	for marker: Node in _map_root.find_children("*", "Marker2D", true, false):
+		var in_group: bool = marker.is_in_group(group) or marker.is_in_group(g)
+		if not in_group:
+			for existing: StringName in marker.get_groups():
+				if existing == group or String(existing) == g:
+					in_group = true
+					break
+		if in_group or String(marker.name).begins_with(g):
+			out.append((marker as Marker2D).global_position)
+	return out
+
+
 func build_snapshot(for_player: PlayerEntity) -> PackedByteArray:
 	var states: Array[EntityState] = []
 	for e: Entity in entities.values():
@@ -95,3 +153,11 @@ func build_snapshot(for_player: PlayerEntity) -> PackedByteArray:
 			states.append(e.to_entity_state())
 	var motor: MotorState = for_player.motor.capture() if for_player.motor else MotorState.new()
 	return Codec.encode_snapshot(sim.tick, for_player.input_queue.last_processed_seq, motor, states)
+
+
+func _build_spawners() -> void:
+	_spawners.clear()
+	for entry: Dictionary in def.spawns:
+		var s := Spawner.new()
+		s.setup(self, entry)
+		_spawners.append(s)

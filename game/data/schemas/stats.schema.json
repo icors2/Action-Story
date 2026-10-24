@@ -25,6 +25,9 @@
     "mp_regen_interval_s": { "type": "number" },
     "death_exp_loss_pct": { "type": "number" },
     "invincibility_after_hit_s": { "type": "number" },
+    "base_weapon_attack": { "type": "integer" },
+    "base_defense": { "type": "integer" },
+    "mob_skill_attack": { "type": "integer" },
     "movement": { "type": "object" }
   }
 }
