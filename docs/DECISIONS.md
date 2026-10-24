@@ -2,14 +2,22 @@
 
 ADR-lite. Status: Proposed | Accepted | Superseded.
 
-## D-022: Novice weapon attack 80
+## D-023: Attack keys are J / X / left-click, not Ctrl
 
 - **Date:** 2026-10-24
 - **Status:** Accepted
-- **Context:** Phase 2 acceptance: a fresh Novice should kill a Puddlet (35 HP) in 3–5 hits. Damage must come from `DamageFormula` + JSON.
-- **Decision:** `stats.json` `base_weapon_attack` is 80. `base_defense` 0. Mob contact uses `weapon_attack` as primary, `accuracy` as secondary, and `mob_skill_attack` 40.
-- **Consequences:** Changing those JSON fields changes damage with no code edits.
-- **Revisit when:** Phase 3 class/AP pass or play-test says swings feel too weak/strong.
+- **Context:** Play-test: Ctrl attack also triggered Windows "show pointer location" (circles around the mouse).
+- **Decision:** Default attack is **J**, **X**, or **left mouse**. Ctrl is stripped from the action. Gamepad X unchanged.
+- **Revisit when:** Settings keybind UI (Phase 6).
+
+## D-022: Novice weapon attack (play-test retune)
+
+- **Date:** 2026-10-24
+- **Status:** Accepted
+- **Context:** Phase 2 wants a Novice to kill a 35 HP Puddlet in 3–5 hits. First pass (80 / contact 40) felt nearly impossible: swings were weak and contact killed the player first.
+- **Decision:** `base_weapon_attack` 140, `mob_skill_attack` 12. Strike hitbox `[36,-14]/[48,32]`, knockback `[90,-50]`.
+- **Consequences:** JSON-only retune. Expected ~3 hits per Puddlet; contact is a nudge, not a one-shot.
+- **Revisit when:** Phase 3 AP/class pass or another feel pass.
 
 ## D-019: Canonical GitHub repo is icors2/Action-Story
 

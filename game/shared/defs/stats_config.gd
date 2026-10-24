@@ -15,9 +15,9 @@ var hp_regen_interval_s: float = 10.0
 var mp_regen_interval_s: float = 10.0
 var death_exp_loss_pct: float = 0.05
 var invincibility_after_hit_s: float = 1.2
-var base_weapon_attack: int = 80
+var base_weapon_attack: int = 140
 var base_defense: int = 0
-var mob_skill_attack: int = 40
+var mob_skill_attack: int = 12
 var movement: Dictionary = {}
 
 

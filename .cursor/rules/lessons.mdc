@@ -7,6 +7,12 @@ alwaysApply: false
 
 Write the mistake, the signal, and the fix. Newest first.
 
+## 2026-10-24 — Climb step-on hit the floor below
+
+- **What happened:** Rope exit snapped onto the ground you were leaving, so you never stayed on the rope.
+- **Signal:** Climb tests: state GROUND immediately; play-test could not step onto the platform at the rope top.
+- **Fix:** Only accept a floor at or above the body center (platform you climb up into).
+
 ## 2026-10-24 — Spawn groups before in-tree
 
 - **What happened:** `Spawner` captured `Marker2D` groups during `MapInstance.setup` before `add_child`.

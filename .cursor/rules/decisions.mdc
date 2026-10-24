@@ -9,7 +9,7 @@ Record choices that later agents should not silently reverse. Newest first. Full
 
 ## 2026-10-24 — Novice weapon attack 80
 
-- **Decision (D-022):** `stats.json` `base_weapon_attack` 80 so a Novice kills a 35 HP Puddlet in ~3–5 hits. Mob contact uses `mob_skill_attack` 40.
+- **Decision (D-022):** `stats.json` `base_weapon_attack` **140**, `mob_skill_attack` **12** (play-test retune). Attack keys are J / X / left-click, not Ctrl (D-023).
 - **Why:** Phase 2 requires data-driven damage without hard-coded swing numbers.
 - **Revisit when:** Play-test or Phase 3 AP/class pass.
 

@@ -4700,7 +4700,7 @@ Keep `docs/DECISIONS.md` as an ADR-lite list. **Template:**
 | move_left / move_right | ←/→, A/D | D-pad / left stick |
 | move_up / move_down | ↑/↓, W/S | D-pad / left stick |
 | jump | Alt, Space | A / Cross |
-| attack | Ctrl, J | X / Square |
+| attack | J, X, left-click (not Ctrl — D-023) | X / Square |
 | pickup | Z | Y / Triangle |
 | interact (talk/portal) | ↑ (contextual), F | B / Circle |
 | skill_1 … skill_8 | Q, W*, E, R, 1–4 (*W conflicts with move_up when WASD is on; the rebind UI resolves it) | Shoulders + face buttons (later) |

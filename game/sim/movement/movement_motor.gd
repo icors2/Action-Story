@@ -142,10 +142,14 @@ func _step_climb(frame: InputFrame, dt: float) -> void:
 	body.global_position.x = _climb_x
 	body.velocity = Vector2(0.0, float(frame.move_y) * climb_speed)
 	body.move_and_slide()
+	if frame.move_y < 0 and _try_step_onto_platform():
+		return
 	var still_on: bool = ClimbQuery.find(_space(), body.global_position) != null
 	if still_on and not (frame.move_y > 0 and body.is_on_floor()):
 		return
 	body.set_collision_mask_value(Const.Layer.PLATFORM_ONEWAY, true)
+	if frame.move_y < 0 and _try_step_onto_platform():
+		return
 	if not still_on and frame.move_y < 0:
 		body.velocity = Vector2(0.0, jump_velocity * 0.2)
 		state = State.AIR
@@ -153,6 +157,50 @@ func _step_climb(frame: InputFrame, dt: float) -> void:
 		state = State.GROUND
 	else:
 		state = State.AIR
+
+
+func _try_step_onto_platform() -> bool:
+	var space: PhysicsDirectSpaceState2D = _space()
+	if space == null:
+		return false
+	var half: float = _body_half_height()
+	var origin: Vector2 = entity.global_position
+	var query := PhysicsRayQueryParameters2D.create(
+		origin + Vector2(0.0, -half - 6.0),
+		origin + Vector2(0.0, half + 8.0),
+		Const.mask([int(Const.Layer.WORLD), int(Const.Layer.PLATFORM_ONEWAY)] as Array[int])
+	)
+	query.exclude = [entity.get_rid()]
+	var hit: Dictionary = space.intersect_ray(query)
+	if hit.is_empty():
+		return false
+	var normal: Vector2 = hit.get("normal", Vector2.ZERO)
+	if normal.y > -0.5:
+		return false
+	var floor_y: float = (hit["position"] as Vector2).y
+	# Ignore floors below center (the ground we just left). Only step onto a
+	# platform we are climbing up into.
+	if floor_y > origin.y + 4.0:
+		return false
+	if floor_y < origin.y - 20.0:
+		return false
+	entity.global_position.y = floor_y - half
+	entity.velocity = Vector2.ZERO
+	entity.set_collision_mask_value(Const.Layer.PLATFORM_ONEWAY, true)
+	_regrab_cooldown = 12
+	state = State.GROUND
+	return true
+
+
+func _body_half_height() -> float:
+	var cs: CollisionShape2D = entity.get_node_or_null("CollisionShape2D") as CollisionShape2D
+	if cs == null or cs.shape == null:
+		return 14.0
+	if cs.shape is CapsuleShape2D:
+		return (cs.shape as CapsuleShape2D).height * 0.5
+	if cs.shape is RectangleShape2D:
+		return (cs.shape as RectangleShape2D).size.y * 0.5
+	return 14.0
 
 
 func _try_grab_climbable(dir_y: int) -> bool:

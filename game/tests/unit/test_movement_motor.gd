@@ -159,3 +159,37 @@ func test_climb_enter_and_exit() -> void:
 	p.motor.step(_frame(seq, 1, 0, true), NetConfig.TICK_DT)
 	await wait_physics_frames(1)
 	assert_eq(p.motor.state, MovementMotor.State.AIR)
+
+
+func test_climb_steps_onto_platform_at_top() -> void:
+	var root := Node2D.new()
+	add_child_autofree(root)
+	_add_static(root, Vector2(400, 420), Vector2(800, 32), Const.bit(Const.Layer.WORLD), false)
+	_add_static(root, Vector2(200, 200), Vector2(240, 16), Const.bit(Const.Layer.PLATFORM_ONEWAY), true)
+	var climb := Area2D.new()
+	climb.collision_layer = Const.bit(Const.Layer.CLIMBABLE)
+	climb.collision_mask = 0
+	climb.monitoring = false
+	climb.monitorable = true
+	climb.position = Vector2(200, 300)
+	var cs := CollisionShape2D.new()
+	var rect := RectangleShape2D.new()
+	rect.size = Vector2(10, 220)
+	cs.shape = rect
+	climb.add_child(cs)
+	root.add_child(climb)
+	var p: PlayerEntity = _spawn_player(root, Vector2(200, 380))
+	await wait_physics_frames(2)
+	var seq: int = await _settle(p, 1, 40)
+	p.motor.step(_frame(seq, 0, -1), NetConfig.TICK_DT)
+	seq += 1
+	await wait_physics_frames(1)
+	assert_eq(p.motor.state, MovementMotor.State.CLIMB)
+	for _i: int in 160:
+		p.motor.step(_frame(seq, 0, -1), NetConfig.TICK_DT)
+		seq += 1
+		await wait_physics_frames(1)
+		if p.motor.state == MovementMotor.State.GROUND:
+			break
+	assert_eq(p.motor.state, MovementMotor.State.GROUND)
+	assert_lt(p.global_position.y, 220.0)

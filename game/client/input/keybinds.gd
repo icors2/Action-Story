@@ -8,7 +8,9 @@ static func register() -> void:
 	_axis(&"move_up", [KEY_UP, KEY_W])
 	_axis(&"move_down", [KEY_DOWN, KEY_S])
 	_axis(&"jump", [KEY_SPACE, KEY_ALT])
-	_axis(&"attack", [KEY_CTRL, KEY_J])
+	_axis(&"attack", [KEY_J, KEY_X])
+	_clear_key(&"attack", KEY_CTRL)
+	_mouse(&"attack", MOUSE_BUTTON_LEFT)
 	_axis(&"respawn", [KEY_R])
 	_axis(&"pickup", [KEY_Z])
 	_axis(&"interact", [KEY_F])
@@ -40,6 +42,24 @@ static func _axis(action: StringName, keys: Array[int]) -> void:
 		ev.physical_keycode = k as Key
 		if not InputMap.action_has_event(action, ev):
 			InputMap.action_add_event(action, ev)
+
+
+static func _clear_key(action: StringName, key: Key) -> void:
+	if not InputMap.has_action(action):
+		return
+	for ev: InputEvent in InputMap.action_get_events(action):
+		var k: InputEventKey = ev as InputEventKey
+		if k and k.physical_keycode == key:
+			InputMap.action_erase_event(action, ev)
+
+
+static func _mouse(action: StringName, button: MouseButton) -> void:
+	if not InputMap.has_action(action):
+		InputMap.add_action(action)
+	var ev := InputEventMouseButton.new()
+	ev.button_index = button
+	if not InputMap.action_has_event(action, ev):
+		InputMap.action_add_event(action, ev)
 
 
 static func _joy(action: StringName, button: JoyButton) -> void:

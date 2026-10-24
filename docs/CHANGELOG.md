@@ -17,11 +17,12 @@ Basic attack, respawning mobs, contact damage, death/respawn. No loot or EXP yet
 1. Checkout `cursor/phase-2-combat-ca25` (or re-download the ZIP). Import once: `godot --headless --import --path game`
 2. Play: `godot --path game` (Windows: `& "C:\path\to\Godot_v4.7.2-stable_win64.exe" --path game`)
 3. Expect: `spawned 3 mobs on map_test_movement`, `entered_map map_test_movement eid=1`. Two blue Puddlets on the floor, one red Capshroom on a middle platform.
-4. Walk up to a Puddlet. **Ctrl or J** (or gamepad X) swings. You stop on the ground to attack. Numbers float up; a red HP bar appears for 3 s. Puddlet flinches and chases. About **3–5 hits** should kill it.
+4. Walk up to a Puddlet. **J**, **X**, or **left-click** (gamepad X) swings. Do not use Ctrl — Windows will circle the mouse. You stop on the ground to attack. Numbers float up; a red HP bar appears for 3 s. About **3 hits** should kill a Puddlet.
 5. Dead mobs vanish after a short pause and come back after ~8–10 s.
 6. Touch a mob: knockback, blink invincibility (~1.2 s), F3 HP drops. Repeat until you die. **Respawn** button or **R** — you return at the left spawn with half HP.
 7. Capshroom should notice you and hop if you are above it.
 8. Overlay `corrections>1px` should stay ~0 while walking in LOCAL.
+9. **Rope:** climb **Up** to the top — you should step onto the connected platform (not fall through). Jump+Left/Right still hops off.
 
 Stop here. Next: Phase 3 RPG systems (EXP, levels, AP/SP). Do not expect loot yet.
 

@@ -7,7 +7,7 @@ func test_registry_loaded() -> void:
 	assert_true(DataRegistry.mobs.has(&"puddlet"))
 	assert_true(DataRegistry.mobs.has(&"capshroom"))
 	assert_true(DataRegistry.skills.has(&"novice_strike"))
-	assert_eq(DataRegistry.stats.base_weapon_attack, 80)
+	assert_eq(DataRegistry.stats.base_weapon_attack, 140)
 	assert_true(DataRegistry.maps.has(&"map_test_flat"))
 	assert_true(DataRegistry.maps.has(&"map_test_movement"))
 
