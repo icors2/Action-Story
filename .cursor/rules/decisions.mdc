@@ -7,6 +7,13 @@ alwaysApply: false
 
 Record choices that later agents should not silently reverse. Newest first. Full ADRs live in `docs/DECISIONS.md` after Phase 0.
 
+## 2026-10-24 — Phase 3 RPG
+
+- **Decision (D-024):** Persist rolled `max_hp` / `max_mp` on `CharacterRecord`. Base stats + AP/SP only; derive the rest.
+- **Decision (D-025):** LOCAL debug `/advance <class>` skips job reqs and grants 5 AP / 6 SP so class skills are playable before Phase 7.
+- **Decision (D-022 still):** Novice `base_weapon_attack` **140** — still ~3 hits per Puddlet.
+- **Revisit when:** Phase 4 loot or Phase 7 job NPC.
+
 ## 2026-10-24 — Novice weapon attack 80
 
 - **Decision (D-022):** `stats.json` `base_weapon_attack` **140**, `mob_skill_attack` **12** (play-test retune). Attack keys are J / X / left-click, not Ctrl (D-023).

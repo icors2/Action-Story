@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "id": "shade_stab",
+      "name": "Stab",
+      "class": "shade",
+      "type": "active_attack",
+      "max_level": 10,
+      "animation": "attack_swing",
+      "cast_time_s": 0.32,
+      "hit_frame_s": 0.1,
+      "hitbox": { "shape": "rect", "offset": [28, -12], "size": [36, 24] },
+      "max_targets": 1,
+      "hits": 1,
+      "levels": { "mp_cost": [3, 10], "damage_pct": [125, 210], "cooldown_s": [0.6, 0.6] },
+      "knockback": [24, -12]
+    },
+    {
+      "id": "shade_fan",
+      "name": "Fan of Knives",
+      "class": "shade",
+      "type": "active_attack",
+      "max_level": 10,
+      "animation": "attack_swing",
+      "cast_time_s": 0.48,
+      "hit_frame_s": 0.14,
+      "hitbox": { "shape": "rect", "offset": [20, -14], "size": [70, 36] },
+      "max_targets": 3,
+      "hits": 2,
+      "hit_spacing_s": 0.08,
+      "levels": { "mp_cost": [8, 18], "damage_pct": [75, 130], "cooldown_s": [2.4, 2.4] },
+      "knockback": [36, -20]
+    },
+    {
+      "id": "shade_veil",
+      "name": "Veil",
+      "class": "shade",
+      "type": "buff",
+      "max_level": 10,
+      "animation": "cast",
+      "cast_time_s": 0.3,
+      "hit_frame_s": 0.1,
+      "levels": { "mp_cost": [7, 15], "duration_s": [14, 28], "cooldown_s": [12, 12] },
+      "buff": { "stat": "luk", "add": [4, 14] }
+    },
+    {
+      "id": "shade_sneak",
+      "name": "Sneak",
+      "class": "shade",
+      "type": "passive",
+      "max_level": 10,
+      "levels": {},
+      "buff": { "stat": "luk", "add": [1, 8] }
+    }
+  ]
+}

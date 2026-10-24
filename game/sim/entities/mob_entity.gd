@@ -7,6 +7,7 @@ const DEATH_WINDOW_TICKS: int = 30
 var def: MobDef
 var def_index: int = 0
 var brain: MobBrain
+var damage_ledger: Dictionary = {}
 var _death_ticks: int = 0
 var _died_emitted: bool = false
 
@@ -32,7 +33,16 @@ func apply_def(p_def: MobDef, p_index: int) -> void:
 	var health: HealthComponent = get_component(&"HealthComponent") as HealthComponent
 	if health:
 		health.fill(p_def.hp, p_def.hp, 0, p_def.hp)
+	damage_ledger.clear()
+	_died_emitted = false
+	_death_ticks = 0
 	_resize_shapes(p_def.body_size)
+
+
+func record_damage(eid: int, amount: int) -> void:
+	if amount <= 0:
+		return
+	damage_ledger[eid] = int(damage_ledger.get(eid, 0)) + amount
 
 
 func step_ai(tick: int) -> void:
@@ -78,6 +88,17 @@ func _on_died(killer_eid: int) -> void:
 		return
 	_died_emitted = true
 	map.emit(SimEvent.make(Protocol.EventType.DIED, map.sim.tick, [eid, killer_eid]))
+	_award_exp()
+
+
+func _award_exp() -> void:
+	if def == null or map == null:
+		return
+	var shares: Dictionary = ExpDistributor.split(def.exp, damage_ledger)
+	for key: Variant in shares.keys():
+		var p: PlayerEntity = map.entities.get(int(key)) as PlayerEntity
+		if p:
+			p.apply_exp(int(shares[key]))
 
 
 func _anim() -> int:

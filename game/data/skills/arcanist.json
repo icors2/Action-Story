@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "id": "arcanist_bolt",
+      "name": "Arc Bolt",
+      "class": "arcanist",
+      "type": "projectile",
+      "max_level": 10,
+      "animation": "cast",
+      "cast_time_s": 0.4,
+      "hit_frame_s": 0.12,
+      "hitbox": { "shape": "rect", "offset": [0, 0], "size": [14, 10] },
+      "max_targets": 1,
+      "hits": 1,
+      "projectile": { "speed": 260, "lifetime_s": 0.9 },
+      "levels": { "mp_cost": [5, 14], "damage_pct": [140, 240], "cooldown_s": [0.8, 0.8] },
+      "knockback": [30, -10]
+    },
+    {
+      "id": "arcanist_nova",
+      "name": "Nova",
+      "class": "arcanist",
+      "type": "active_attack",
+      "max_level": 10,
+      "animation": "cast",
+      "cast_time_s": 0.5,
+      "hit_frame_s": 0.2,
+      "hitbox": { "shape": "rect", "offset": [0, -8], "size": [80, 48] },
+      "max_targets": 4,
+      "hits": 1,
+      "levels": { "mp_cost": [10, 22], "damage_pct": [110, 200], "cooldown_s": [3.0, 3.0] },
+      "knockback": [20, -30]
+    },
+    {
+      "id": "arcanist_focus",
+      "name": "Focus",
+      "class": "arcanist",
+      "type": "buff",
+      "max_level": 10,
+      "animation": "cast",
+      "cast_time_s": 0.3,
+      "hit_frame_s": 0.1,
+      "levels": { "mp_cost": [8, 16], "duration_s": [18, 36], "cooldown_s": [10, 10] },
+      "buff": { "stat": "int", "add": [4, 16] }
+    },
+    {
+      "id": "arcanist_study",
+      "name": "Study",
+      "class": "arcanist",
+      "type": "passive",
+      "max_level": 10,
+      "levels": {},
+      "buff": { "stat": "int", "add": [1, 8] }
+    }
+  ]
+}

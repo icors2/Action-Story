@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "id": "vanguard_cleave",
+      "name": "Cleave",
+      "class": "vanguard",
+      "type": "active_attack",
+      "max_level": 10,
+      "animation": "attack_swing",
+      "cast_time_s": 0.45,
+      "hit_frame_s": 0.18,
+      "hitbox": { "shape": "rect", "offset": [32, -16], "size": [64, 40] },
+      "max_targets": 3,
+      "hits": 1,
+      "levels": { "mp_cost": [4, 12], "damage_pct": [130, 220], "cooldown_s": [1.2, 1.2] },
+      "knockback": [70, -40]
+    },
+    {
+      "id": "vanguard_smash",
+      "name": "Smash",
+      "class": "vanguard",
+      "type": "active_attack",
+      "max_level": 10,
+      "animation": "attack_swing",
+      "cast_time_s": 0.55,
+      "hit_frame_s": 0.16,
+      "hitbox": { "shape": "rect", "offset": [28, -14], "size": [40, 32] },
+      "max_targets": 1,
+      "hits": 3,
+      "hit_spacing_s": 0.08,
+      "required_skills": { "vanguard_cleave": 1 },
+      "levels": { "mp_cost": [6, 16], "damage_pct": [70, 120], "cooldown_s": [2.0, 2.0] },
+      "knockback": [40, -20]
+    },
+    {
+      "id": "vanguard_war_cry",
+      "name": "War Cry",
+      "class": "vanguard",
+      "type": "buff",
+      "max_level": 10,
+      "animation": "cast",
+      "cast_time_s": 0.3,
+      "hit_frame_s": 0.1,
+      "levels": { "mp_cost": [8, 18], "duration_s": [20, 40], "cooldown_s": [8, 8] },
+      "buff": { "stat": "weapon_attack", "add": [8, 24] }
+    },
+    {
+      "id": "vanguard_iron_hide",
+      "name": "Iron Hide",
+      "class": "vanguard",
+      "type": "passive",
+      "max_level": 10,
+      "levels": {},
+      "buff": { "stat": "defense", "add": [2, 12] }
+    }
+  ]
+}

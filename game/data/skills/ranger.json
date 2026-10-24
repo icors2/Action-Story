@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "skills": [
+    {
+      "id": "ranger_arrow",
+      "name": "Quick Arrow",
+      "class": "ranger",
+      "type": "projectile",
+      "max_level": 10,
+      "animation": "attack_swing",
+      "cast_time_s": 0.35,
+      "hit_frame_s": 0.1,
+      "hitbox": { "shape": "rect", "offset": [0, 0], "size": [12, 8] },
+      "max_targets": 1,
+      "hits": 1,
+      "projectile": { "speed": 320, "lifetime_s": 0.8 },
+      "levels": { "mp_cost": [3, 10], "damage_pct": [120, 210], "cooldown_s": [0.5, 0.5] },
+      "knockback": [20, -8]
+    },
+    {
+      "id": "ranger_volley",
+      "name": "Volley",
+      "class": "ranger",
+      "type": "active_attack",
+      "max_level": 10,
+      "animation": "attack_swing",
+      "cast_time_s": 0.5,
+      "hit_frame_s": 0.14,
+      "hitbox": { "shape": "rect", "offset": [40, -12], "size": [56, 28] },
+      "max_targets": 2,
+      "hits": 2,
+      "hit_spacing_s": 0.1,
+      "levels": { "mp_cost": [7, 16], "damage_pct": [80, 140], "cooldown_s": [2.2, 2.2] },
+      "knockback": [30, -16]
+    },
+    {
+      "id": "ranger_hawk_eye",
+      "name": "Hawk Eye",
+      "class": "ranger",
+      "type": "buff",
+      "max_level": 10,
+      "animation": "cast",
+      "cast_time_s": 0.3,
+      "hit_frame_s": 0.1,
+      "levels": { "mp_cost": [6, 14], "duration_s": [16, 32], "cooldown_s": [10, 10] },
+      "buff": { "stat": "dex", "add": [4, 14] }
+    },
+    {
+      "id": "ranger_steady",
+      "name": "Steady",
+      "class": "ranger",
+      "type": "passive",
+      "max_level": 10,
+      "levels": {},
+      "buff": { "stat": "dex", "add": [1, 8] }
+    }
+  ]
+}

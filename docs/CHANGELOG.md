@@ -1,5 +1,33 @@
 # Changelog
 
+## Phase 3 — RPG systems (2026-10-24)
+
+Kills grant EXP. Levels grant AP/SP and roll HP/MP. Four first jobs + skills. No loot yet.
+
+- `Leveling` + `ExpDistributor` (damage ledger, remainder conserved). Death loses 5% of the current bar; never de-levels.
+- `ClassDef` / `classes.json`: Novice → Vanguard / Arcanist / Ranger / Shade.
+- AP/SP intents. F5–F8 allocate AP (STR/DEX/INT/LUK). F9 spends SP on the first class skill below max.
+- Skills: melee, multi-hit, projectile, buff, passive. Cooldowns and MP enforced in the sim.
+- LOCAL debug: Enter, type `/advance vanguard` (or arcanist/ranger/shade). Skips level/quest reqs and grants 5 AP / 6 SP (D-025).
+- F3 overlay shows level, EXP, AP/SP, class, stats, buffs, last reject.
+- Level table 1–70 from `tools/gen_level_table.py` (lv1 needs 25 EXP; a Puddlet is 6).
+- GUT: 79 tests.
+
+### Play-test script (M3 RPG)
+
+1. Download branch `cursor/phase-3-rpg-ca25` (ZIP if you have no git). Import once: `godot --headless --import --path game`
+2. Play: `godot --path game` (Windows: `& "C:\path\to\Godot_v4.7.2-stable_win64.exe" --path game`)
+3. Expect: `spawned 3 mobs`, `entered_map map_test_movement eid=1`. F3: `Lv 1 novice  EXP 0/25  AP 0  SP 0`.
+4. **J / X / left-click** still Strike. Kill Puddlets — EXP ticks up. About 5 Puddlets to level 2. AP 5 / SP 3 appear. Max HP/MP grow.
+5. **F5** dumps 1 AP into STR. Damage should feel a bit stronger after a few points. F6/F7/F8 = DEX/INT/LUK.
+6. Die (touch mobs): EXP drops a little, level stays. **R** respawn.
+7. **Enter**, type `/advance vanguard`, Enter. Overlay class becomes vanguard. F9 once → Cleave lv1. **Q** is Cleave (wider). F9 again then Q after Cleave 1 unlocks Smash (3 stacked numbers).
+8. Try the others the same way: `/advance arcanist` then F9 + **Q** for the yellow bolt; ranger arrow; shade stab. Buffs show on F3 (`buffs weapon_attack+8`) then expire.
+9. Cast spam should log `reject COOLDOWN` or `reject NO_MP` on F3.
+10. Rope step-on and 3-hit Puddlet kills from Phase 2 should still work.
+
+Stop here. Next: Phase 4 items/drops. Do not expect inventory or loot.
+
 ## Phase 2 — Combat & mobs (2026-10-24)
 
 Basic attack, respawning mobs, contact damage, death/respawn. No loot or EXP yet.

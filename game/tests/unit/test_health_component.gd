@@ -45,6 +45,14 @@ func test_heal_dead_does_nothing() -> void:
 	assert_true(h.is_dead())
 
 
+func test_restore_mp_caps() -> void:
+	var h: HealthComponent = _make(10, 5)
+	h.mp = 3
+	assert_eq(h.restore_mp(4), 2)
+	assert_eq(h.mp, 5)
+	assert_eq(h.restore_mp(1), 0)
+
+
 func test_spend_mp() -> void:
 	var h: HealthComponent = _make(10, 5)
 	assert_true(h.spend_mp(3))

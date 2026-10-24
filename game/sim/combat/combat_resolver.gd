@@ -2,7 +2,13 @@ class_name CombatResolver
 ## Authoritative hit resolution. Sim-only. Never called from client/.
 
 
-static func resolve_skill_hit(player: PlayerEntity, skill: SkillDef, skill_level: int, facing: int) -> void:
+static func resolve_skill_hit(
+		player: PlayerEntity,
+		skill: SkillDef,
+		skill_level: int,
+		facing: int,
+		hit_index: int = 0
+	) -> void:
 	if player == null or player.map == null or skill == null:
 		return
 	var space: PhysicsDirectSpaceState2D = player.map.space_state()
@@ -16,10 +22,22 @@ static func resolve_skill_hit(player: PlayerEntity, skill: SkillDef, skill_level
 		skill.max_targets
 	)
 	var atk: DamageFormula.AttackInput = _player_attack(player, skill, skill_level)
-	var hit_index: int = 0
 	for target: Entity in targets:
 		_apply_hit(player, target, atk, skill.knockback, facing, hit_index, 0)
-		hit_index += 1
+
+
+static func resolve_direct_hit(
+		player: PlayerEntity,
+		target: Entity,
+		skill: SkillDef,
+		skill_level: int,
+		facing: int,
+		hit_index: int
+	) -> void:
+	if player == null or target == null or skill == null:
+		return
+	var atk: DamageFormula.AttackInput = _player_attack(player, skill, skill_level)
+	_apply_hit(player, target, atk, skill.knockback, facing, hit_index, 0)
 
 
 static func resolve_contact(mob: MobEntity) -> void:
@@ -75,9 +93,11 @@ static func _apply_hit(
 		attacker.map.sim.tick,
 		[attacker.eid, target.eid, dealt, rolled.crit, hit_index]
 	))
+	if attacker is PlayerEntity and target is MobEntity:
+		(target as MobEntity).record_damage(attacker.eid, dealt)
 	_knockback_target(target, knockback, facing)
 	if target is PlayerEntity:
-		_emit_vitals(target as PlayerEntity)
+		emit_vitals(target as PlayerEntity)
 
 
 static func _player_attack(player: PlayerEntity, skill: SkillDef, skill_level: int) -> DamageFormula.AttackInput:
@@ -130,7 +150,9 @@ static func _knockback_target(target: Entity, knockback: Vector2, facing: int) -
 		(target as MobEntity).apply_knockback(impulse)
 
 
-static func _emit_vitals(player: PlayerEntity) -> void:
+static func emit_vitals(player: PlayerEntity) -> void:
+	if player == null or player.map == null:
+		return
 	var health: HealthComponent = player.get_component(&"HealthComponent") as HealthComponent
 	if health == null:
 		return

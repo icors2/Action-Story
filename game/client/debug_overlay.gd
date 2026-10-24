@@ -1,6 +1,6 @@
 class_name DebugOverlay
 extends CanvasLayer
-## F3 overlay: FPS, tick, motor, position, velocity, pending, corrections.
+## F3 overlay: FPS, tick, motor, vitals, EXP, AP/SP, class.
 
 var authority: LocalAuthority
 var predictor: Predictor
@@ -37,18 +37,45 @@ func _process(_delta: float) -> void:
 		var sim_player: PlayerEntity = authority.sim._players.get(authority.self_eid)
 		if sim_player and sim_player.action:
 			action_name = String(sim_player.action.current_name)
-	_label.text = "FPS %d  tick %d  %s %s\npos (%.1f, %.1f)  vel (%.1f, %.1f)\nHP %d/%d  pending %d  corrections>1px %d  last %.3f" % [
-		Engine.get_frames_per_second(),
-		tick,
-		MovementMotor.State.keys()[motor.state],
-		action_name,
-		predicted.global_position.x,
-		predicted.global_position.y,
-		predicted.velocity.x,
-		predicted.velocity.y,
-		GameState.hp,
-		GameState.max_hp,
-		pending,
-		corrections,
-		last_c,
-	]
+	var need: int = GameState.exp_to_next()
+	var buff_txt: String = _buff_line()
+	var reject_txt: String = _reject_line()
+	_label.text = (
+		"FPS %d  tick %d  %s %s\n" % [
+			Engine.get_frames_per_second(), tick,
+			MovementMotor.State.keys()[motor.state], action_name
+		]
+		+ "pos (%.1f, %.1f)  vel (%.1f, %.1f)\n" % [
+			predicted.global_position.x, predicted.global_position.y,
+			predicted.velocity.x, predicted.velocity.y
+		]
+		+ "HP %d/%d  MP %d/%d  pending %d  corr %d  last %.3f\n" % [
+			GameState.hp, GameState.max_hp, GameState.mp, GameState.max_mp,
+			pending, corrections, last_c
+		]
+		+ "Lv %d %s  EXP %d/%d  AP %d  SP %d\n" % [
+			GameState.level, String(GameState.class_id),
+			GameState.exp, need, GameState.ap, GameState.sp
+		]
+		+ "STR %d  DEX %d  INT %d  LUK %d\n" % [
+			GameState.stat_str, GameState.stat_dex, GameState.stat_int, GameState.stat_luk
+		]
+		+ buff_txt + reject_txt
+		+ (("%s\n" % GameState.last_system) if GameState.last_system != "" else "")
+	)
+
+
+func _buff_line() -> String:
+	if GameState.buffs.is_empty():
+		return ""
+	var bits: PackedStringArray = PackedStringArray()
+	for key: Variant in GameState.buffs.keys():
+		var e: Dictionary = GameState.buffs[key]
+		bits.append("%s+%s" % [str(key), str(e.get("amount", 0))])
+	return "buffs %s\n" % ", ".join(bits)
+
+
+func _reject_line() -> String:
+	if GameState.last_reject == Protocol.Reject.NONE:
+		return ""
+	return "reject %s\n" % Protocol.Reject.keys()[GameState.last_reject]

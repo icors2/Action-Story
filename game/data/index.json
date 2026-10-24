@@ -2,7 +2,21 @@
   "schema_version": 1,
   "stats": "res://data/stats.json",
   "level_table": "res://data/level_table.json",
-  "skills": ["res://data/skills/novice.json"],
-  "mobs": ["res://data/mobs/field_mobs.json"],
-  "maps": ["res://data/maps/map_test_flat.json", "res://data/maps/map_test_movement.json"]
+  "skills": [
+    "res://data/skills/arcanist.json",
+    "res://data/skills/novice.json",
+    "res://data/skills/ranger.json",
+    "res://data/skills/shade.json",
+    "res://data/skills/vanguard.json"
+  ],
+  "mobs": [
+    "res://data/mobs/field_mobs.json"
+  ],
+  "maps": [
+    "res://data/maps/map_test_flat.json",
+    "res://data/maps/map_test_movement.json"
+  ],
+  "classes": [
+    "res://data/classes.json"
+  ]
 }

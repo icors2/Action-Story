@@ -2,6 +2,22 @@
 
 ADR-lite. Status: Proposed | Accepted | Superseded.
 
+## D-025: LOCAL `/advance` skips job requirements
+
+- **Date:** 2026-10-24
+- **Status:** Accepted
+- **Context:** Phase 3 job advance is data-complete, but quests (Phase 7) and a level-10 grind are not playable yet.
+- **Decision:** CHAT `/advance <class>` works only in LOCAL debug builds. `JobAdvance.validate(..., skip_reqs=true)`. Grants at least 5 AP and 6 SP so class skills can be tried. Phase 7 NPC `job_advance` will enforce real reqs.
+- **Revisit when:** Phase 7 job NPC ships.
+
+## D-024: Persist rolled max HP/MP
+
+- **Date:** 2026-10-24
+- **Status:** Accepted
+- **Context:** Per-level HP/MP is rolled from class ranges with sim RNG. That is not a derived stat.
+- **Decision:** `CharacterRecord` stores `max_hp` / `max_mp` plus base stats + AP/SP. Passives and buffs are recomputed, never saved.
+- **Revisit when:** Phase 8 full save round-trip.
+
 ## D-023: Attack keys are J / X / left-click, not Ctrl
 
 - **Date:** 2026-10-24

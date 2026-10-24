@@ -25,7 +25,7 @@ func _ready() -> void:
 func _on_entered_map(map_id: StringName, self_eid: int, _record: Dictionary) -> void:
 	Log.info("client", "entered_map %s eid=%s" % [String(map_id), self_eid])
 	GameState.self_eid = self_eid
-	GameState.apply_vitals(50, 50, 5, 5)
+	GameState.apply_record_view(_record)
 	var def: MapDef = DataRegistry.map_def(map_id)
 	if def == null:
 		Log.error("client", "unknown map %s" % map_id)
@@ -70,6 +70,10 @@ func _on_entered_map(map_id: StringName, self_eid: int, _record: Dictionary) -> 
 	_respawn.name = "RespawnPrompt"
 	_respawn.authority = _authority
 	add_child(_respawn)
+	var console := DebugConsole.new()
+	console.name = "DebugConsole"
+	console.authority = _authority
+	add_child(console)
 
 
 func _on_snapshot(snap: Snapshot) -> void:
@@ -88,6 +92,34 @@ func _on_event(event: SimEvent) -> void:
 				GameState.apply_vitals(int(event.data[1]), int(event.data[2]), int(event.data[3]), int(event.data[4]))
 				if not GameState.dead and _respawn:
 					_respawn.hide_prompt()
+		Protocol.EventType.STATS_CHANGED:
+			if event.data.size() >= 9 and int(event.data[0]) == GameState.self_eid:
+				var sk: Dictionary = event.data[9] if event.data.size() > 9 and event.data[9] is Dictionary else {}
+				GameState.apply_stats(
+					int(event.data[1]), StringName(str(event.data[2])),
+					int(event.data[3]), int(event.data[4]), int(event.data[5]), int(event.data[6]),
+					int(event.data[7]), int(event.data[8]), sk
+				)
+		Protocol.EventType.EXP_GAINED:
+			if event.data.size() >= 4 and int(event.data[0]) == GameState.self_eid:
+				GameState.apply_exp(int(event.data[1]), int(event.data[2]), int(event.data[3]))
+		Protocol.EventType.LEVEL_UP:
+			if event.data.size() >= 2 and int(event.data[0]) == GameState.self_eid:
+				GameState.level = int(event.data[1])
+				GameState.last_system = "Level up! %d" % GameState.level
+		Protocol.EventType.BUFF_APPLIED:
+			if event.data.size() >= 4 and int(event.data[0]) == GameState.self_eid:
+				GameState.apply_buff(str(event.data[1]), int(event.data[2]), int(event.data[3]))
+		Protocol.EventType.BUFF_EXPIRED:
+			if event.data.size() >= 2 and int(event.data[0]) == GameState.self_eid:
+				GameState.clear_buff(str(event.data[1]))
+		Protocol.EventType.SYSTEM_MESSAGE:
+			if event.data.size() > 0:
+				GameState.last_system = str(event.data[0])
+		Protocol.EventType.INTENT_REJECTED:
+			if event.data.size() >= 2:
+				GameState.last_reject = int(event.data[1])
+				GameState.last_system = "reject %s" % Protocol.Reject.keys()[GameState.last_reject]
 		Protocol.EventType.DAMAGE:
 			if event.data.size() >= 3 and int(event.data[1]) == GameState.self_eid:
 				GameState.hp = maxi(0, GameState.hp - int(event.data[2]))

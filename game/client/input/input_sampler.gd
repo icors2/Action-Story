@@ -20,9 +20,10 @@ func _physics_process(_delta: float) -> void:
 		return
 	_seq += 1
 	_maybe_attack()
+	_maybe_rpg()
 	var f := InputFrame.new()
 	f.seq = _seq
-	if GameState.dead:
+	if GameState.dead or GameState.chat_open:
 		predictor.apply_local(f)
 		authority.submit_input(f)
 		return
@@ -39,10 +40,40 @@ func _physics_process(_delta: float) -> void:
 
 
 func _maybe_attack() -> void:
+	if GameState.chat_open:
+		_attack_was = Input.is_action_pressed(&"attack")
+		return
 	var pressed: bool = Input.is_action_pressed(&"attack")
 	if pressed and not _attack_was and not GameState.dead:
-		var facing: int = predicted.motor.facing if predicted and predicted.motor else 1
-		GameState.last_cast_seq = authority.submit_intent(Intent.cast(&"novice_strike", facing))
-		if player_view:
-			player_view.play_attack()
+		_cast(&"novice_strike")
 	_attack_was = pressed
+
+
+func _maybe_rpg() -> void:
+	if GameState.chat_open or GameState.dead:
+		return
+	if Input.is_action_just_pressed(&"skill_1"):
+		_cast(GameState.extra_cast_skill(0))
+	if Input.is_action_just_pressed(&"skill_2"):
+		_cast(GameState.extra_cast_skill(1))
+	if Input.is_action_just_pressed(&"alloc_str"):
+		authority.submit_intent(Intent.alloc_ap(&"str"))
+	if Input.is_action_just_pressed(&"alloc_dex"):
+		authority.submit_intent(Intent.alloc_ap(&"dex"))
+	if Input.is_action_just_pressed(&"alloc_int"):
+		authority.submit_intent(Intent.alloc_ap(&"int"))
+	if Input.is_action_just_pressed(&"alloc_luk"):
+		authority.submit_intent(Intent.alloc_ap(&"luk"))
+	if Input.is_action_just_pressed(&"alloc_sp"):
+		var sid: StringName = GameState.first_sp_skill()
+		if sid != &"":
+			authority.submit_intent(Intent.alloc_sp(sid))
+
+
+func _cast(skill_id: StringName) -> void:
+	if skill_id == &"":
+		return
+	var facing: int = predicted.motor.facing if predicted and predicted.motor else 1
+	GameState.last_cast_seq = authority.submit_intent(Intent.cast(skill_id, facing))
+	if player_view:
+		player_view.play_attack()

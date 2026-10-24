@@ -30,6 +30,18 @@ static func respawn() -> Intent:
 	return make(Protocol.IntentType.RESPAWN, [])
 
 
+static func alloc_ap(stat: StringName) -> Intent:
+	return make(Protocol.IntentType.ALLOC_AP, [String(stat)])
+
+
+static func alloc_sp(skill_id: StringName) -> Intent:
+	return make(Protocol.IntentType.ALLOC_SP, [String(skill_id)])
+
+
+static func chat(text: String) -> Intent:
+	return make(Protocol.IntentType.CHAT, [text])
+
+
 func to_wire() -> Array:
 	return [type, client_seq, args]
 

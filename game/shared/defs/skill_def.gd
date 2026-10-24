@@ -12,9 +12,13 @@ var hitbox_offset: Vector2 = Vector2.ZERO
 var hitbox_size: Vector2 = Vector2.ZERO
 var max_targets: int = 1
 var hits: int = 1
+var hit_spacing_ticks: int = 6
+var required_skills: Dictionary = {}
 var levels: Dictionary = {}
 var knockback: Vector2 = Vector2.ZERO
 var buff: Dictionary = {}
+var projectile_speed: float = 220.0
+var projectile_lifetime_ticks: int = 48
 
 
 static func from_dict(d: Dictionary) -> SkillDef:
@@ -33,10 +37,16 @@ static func from_dict(d: Dictionary) -> SkillDef:
 		s.hitbox_size = Vector2(float(hb["size"][0]), float(hb["size"][1]))
 	s.max_targets = int(d.get("max_targets", 1))
 	s.hits = int(d.get("hits", 1))
+	s.hit_spacing_ticks = maxi(1, int(float(d.get("hit_spacing_s", 0.1)) * NetConfig.TICK_RATE))
+	s.required_skills = d.get("required_skills", {})
 	s.levels = d.get("levels", {})
 	var kb: Array = d.get("knockback", [0, 0])
 	s.knockback = Vector2(float(kb[0]), float(kb[1]))
 	s.buff = d.get("buff", {})
+	var proj: Dictionary = d.get("projectile", {})
+	if not proj.is_empty():
+		s.projectile_speed = float(proj.get("speed", s.projectile_speed))
+		s.projectile_lifetime_ticks = int(float(proj.get("lifetime_s", 0.8)) * NetConfig.TICK_RATE)
 	return s
 
 

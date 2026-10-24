@@ -43,11 +43,13 @@ func load_all() -> bool:
 	mob_ids.clear()
 	skills.clear()
 	maps.clear()
+	classes.clear()
 	var index: Dictionary = _read_json(INDEX_PATH)
 	if index.is_empty():
 		return false
 	stats = StatsConfig.from_dict(_read_json(String(index["stats"])))
 	level_table = PackedInt64Array(_read_json(String(index["level_table"])).get("exp_to_next", []))
+	_load_category(index, "classes", "classes", classes, func(d: Dictionary) -> BaseDef: return ClassDef.from_dict(d))
 	_load_category(index, "mobs", "mobs", mobs, func(d: Dictionary) -> BaseDef: return MobDef.from_dict(d))
 	for id: StringName in mobs.keys():
 		mob_ids.append(id)
@@ -74,6 +76,13 @@ func mob_id_from_index(index: int) -> StringName:
 	return mob_ids[index]
 
 
+func class_def(id: StringName) -> ClassDef:
+	var d: ClassDef = classes.get(id)
+	if d == null:
+		push_error("Unknown class id: %s" % id)
+	return d
+
+
 func skill(id: StringName) -> SkillDef:
 	var d: SkillDef = skills.get(id)
 	if d == null:
@@ -92,6 +101,13 @@ func validate_references() -> void:
 	for m: MobDef in mobs.values():
 		if not drop_tables.is_empty() and not drop_tables.has(m.drop_table):
 			_errors.append("mob %s references unknown drop_table %s" % [m.id, m.drop_table])
+	for s: SkillDef in skills.values():
+		if not classes.is_empty() and not classes.has(s.class_id):
+			_errors.append("skill %s references unknown class %s" % [s.id, s.class_id])
+	for c: ClassDef in classes.values():
+		for sid: StringName in c.starting_skills:
+			if not skills.has(sid):
+				_errors.append("class %s starting skill missing %s" % [c.id, sid])
 	for md: MapDef in maps.values():
 		if md.scene_path.is_empty() or not ResourceLoader.exists(md.scene_path):
 			_errors.append("map %s scene missing %s" % [md.id, md.scene_path])

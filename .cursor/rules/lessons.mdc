@@ -7,6 +7,12 @@ alwaysApply: false
 
 Write the mistake, the signal, and the fix. Newest first.
 
+## 2026-10-24 — class_def push_error fails GUT
+
+- **What happened:** `DataRegistry.class_def("wizard")` `push_error`s on a miss. GUT treats that as an unexpected error.
+- **Signal:** `test_unknown_class` failed with `<push_error>Unknown class id`.
+- **Fix:** Lookups that may miss use `DataRegistry.classes.get(id)`. `class_def()` is for known ids only.
+
 ## 2026-10-24 — Climb step-on hit the floor below
 
 - **What happened:** Rope exit snapped onto the ground you were leaving, so you never stayed on the rope.

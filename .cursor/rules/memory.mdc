@@ -23,15 +23,15 @@ Agents update this file. It is the living snapshot of the project.
 
 ## Current focus
 
-- **Phase 2 complete. Stopped for play-test.** Default map is `map_test_movement` with 2 Puddlets + 1 Capshroom.
-- LOCAL: walk/jump/climb + Ctrl/J attack, contact damage, death/respawn. No loot/EXP yet.
-- Do not start Phase 3 until Chris play-tests combat.
-- Next phase: **3 — RPG systems** (`implement-skyrope-phase`).
+- **Phase 3 complete. Stopped for play-test.** Branch `cursor/phase-3-rpg-ca25`.
+- LOCAL: walk/jump/climb, J/X/click Strike, EXP/levels, AP/SP (F5–F9), `/advance <class>` (Enter), Q/E class skills.
+- Do not start Phase 4 until Chris play-tests RPG.
+- Next phase: **4 — Items, inventory, drops** (`implement-skyrope-phase`).
 - Source of truth: `BUILD_SCOPE.md`. One phase at a time.
 
 ## Open questions
 
-- Play-test Phase 2 combat before Phase 3.
+- Play-test Phase 3 RPG before Phase 4.
 - Redis deferred to Phase 12+ (Decision Log required).
 - Public HTTPS / Caddy profile deferred until leaving Tailscale.
 

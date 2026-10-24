@@ -13,7 +13,9 @@ var stats: Dictionary = {"str": 4, "dex": 4, "int": 4, "luk": 4}
 var ap: int = 0
 var sp: int = 0
 var hp: int = 50
+var max_hp: int = 50
 var mp: int = 5
+var max_mp: int = 5
 var currency: int = 0
 var map_id: StringName = &"map_test_movement"
 var spawn_portal: StringName = &"spawn"
@@ -45,7 +47,9 @@ func to_dict() -> Dictionary:
 		"ap": ap,
 		"sp": sp,
 		"hp": hp,
+		"max_hp": max_hp,
 		"mp": mp,
+		"max_mp": max_mp,
 		"currency": currency,
 		"map_id": String(map_id),
 		"spawn_portal": String(spawn_portal),
@@ -70,7 +74,9 @@ static func from_dict(raw: Dictionary) -> CharacterRecord:
 	r.ap = int(d.get("ap", 0))
 	r.sp = int(d.get("sp", 0))
 	r.hp = int(d.get("hp", 50))
+	r.max_hp = int(d.get("max_hp", maxi(r.hp, 50)))
 	r.mp = int(d.get("mp", 5))
+	r.max_mp = int(d.get("max_mp", maxi(r.mp, 5)))
 	r.currency = int(d.get("currency", 0))
 	r.map_id = StringName(d.get("map_id", "map_test_movement"))
 	r.spawn_portal = StringName(d.get("spawn_portal", "spawn"))

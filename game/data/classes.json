@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "classes": [
+    {
+      "id": "novice",
+      "name": "Novice",
+      "tier": 0,
+      "parent": null,
+      "primary_stat": "str",
+      "secondary_stat": "dex",
+      "advance_level": 10,
+      "advance_quest": "q_job_advance_intro",
+      "base_hp_per_level": [12, 16],
+      "base_mp_per_level": [6, 8],
+      "starting_skills": ["novice_strike"],
+      "allowed_weapon_types": ["sword", "club", "wand", "bow", "dagger"]
+    },
+    {
+      "id": "vanguard",
+      "name": "Vanguard",
+      "tier": 1,
+      "parent": "novice",
+      "primary_stat": "str",
+      "secondary_stat": "dex",
+      "base_hp_per_level": [24, 28],
+      "base_mp_per_level": [4, 6],
+      "advance_requirements": { "level": 10, "stats": { "str": 35 } },
+      "allowed_weapon_types": ["sword", "club"]
+    },
+    {
+      "id": "arcanist",
+      "name": "Arcanist",
+      "tier": 1,
+      "parent": "novice",
+      "primary_stat": "int",
+      "secondary_stat": "luk",
+      "base_hp_per_level": [10, 14],
+      "base_mp_per_level": [12, 16],
+      "advance_requirements": { "level": 10, "stats": { "int": 35 } },
+      "allowed_weapon_types": ["wand"]
+    },
+    {
+      "id": "ranger",
+      "name": "Ranger",
+      "tier": 1,
+      "parent": "novice",
+      "primary_stat": "dex",
+      "secondary_stat": "str",
+      "base_hp_per_level": [14, 18],
+      "base_mp_per_level": [8, 10],
+      "advance_requirements": { "level": 10, "stats": { "dex": 35 } },
+      "allowed_weapon_types": ["bow"]
+    },
+    {
+      "id": "shade",
+      "name": "Shade",
+      "tier": 1,
+      "parent": "novice",
+      "primary_stat": "luk",
+      "secondary_stat": "dex",
+      "base_hp_per_level": [12, 16],
+      "base_mp_per_level": [8, 12],
+      "advance_requirements": { "level": 10, "stats": { "luk": 35 } },
+      "allowed_weapon_types": ["dagger"]
+    }
+  ]
+}

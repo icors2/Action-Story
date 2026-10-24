@@ -81,7 +81,7 @@ Tick a phase only when **all** of its acceptance criteria pass.
 | 0 | Project setup, tooling, CI, skeleton architecture | — | - [x] |
 | 1 | Core movement & physics (one-way platforms, ropes, ladders) | — | - [x] |
 | 2 | Combat & mobs | — | - [x] |
-| 3 | RPG systems (stats, leveling, AP/SP, classes, skills) | — | - [ ] |
+| 3 | RPG systems (stats, leveling, AP/SP, classes, skills) | — | - [x] |
 | 4 | Items, inventory, equipment, drops, currency | — | - [ ] |
 | 5 | Maps, portals, tilemaps, parallax, camera | — | - [ ] |
 | 6 | UI / HUD | **M1 Vertical Slice** | - [ ] |
@@ -3959,18 +3959,18 @@ Tasks are ordered. Each one is small enough for a single commit. A task is done 
 **Deliverables:** `Leveling`, `ExpDistributor`, `ClassDef`, AP/SP allocation intents, skill system (active, buff, passive, projectile), job advancement (data + intent), level table.
 
 **Tasks**
-- [ ] 3.1 `ClassDef` + `classes.json` (novice + vanguard/arcanist/ranger/shade) + schema. `StatsComponent` uses class primary/secondary stats.
-- [ ] 3.2 `Leveling` (pure): `add_exp(level, exp, amount, table) -> {level, exp, levels_gained}`, with multi-level-ups and a max-level cap. HP/MP growth per level rolled from `base_hp_per_level` ranges with sim RNG. Emit `EXP_GAINED`, `LEVEL_UP`, `STATS_CHANGED`, `VITALS_CHANGED`.
-- [ ] 3.3 `ExpDistributor`: on mob death, split EXP among damagers proportional to damage dealt (tracked per mob in a `damage_ledger`). Party sharing is a hook only (Phase 12).
-- [ ] 3.4 AP/SP: `+ap_per_level` and `+sp_per_level` (from `stats.json`). Intents `ALLOC_AP(stat)` and `ALLOC_SP(skill_id)`, validated (has points, skill belongs to the class or ancestors, prerequisites met, below max level).
-- [ ] 3.5 Death EXP penalty (`death_exp_loss_pct` of the current level's requirement, never de-levels; towns are exempt via map flag).
-- [ ] 3.6 Skill types: `active_attack` (multi-hit, multi-target, `hits` with spaced damage events), `projectile` (`ProjectileEntity` moving per tick with a lifetime, resolving hits on mob hurtboxes), `buff` (adds to `StatsComponent.buff_bonus` for N ticks, via a `Buffs` component), `passive` (permanent bonus when learned).
-- [ ] 3.7 `Cooldowns` component (tick counters per skill_id). Reject casts during cooldown with `Reject.COOLDOWN`.
-- [ ] 3.8 HP/MP natural regen every `*_regen_interval_s` (more when standing still: genre convention).
-- [ ] 3.9 Job advancement: an intent via NPC dialogue action `job_advance` (Phase 7 hooks it up; for now a debug command `/advance vanguard` in LOCAL debug builds only), validated against `advance_requirements`. Class change emits `STATS_CHANGED` and grants first-job skills at level 0 with SP.
-- [ ] 3.10 Author first-job skills: 3–4 per class (one basic attack upgrade, one AoE/multi-hit or projectile, one buff, one passive) in `skills/<class>.json`, with schema validation.
-- [ ] 3.11 Projectile and buff views: projectile sprite interpolated from snapshots, buff icon events.
-- [ ] 3.12 `tools/gen_level_table.py`: curve-based generator. Generate levels 1–70 and commit.
+- [x] 3.1 `ClassDef` + `classes.json` (novice + vanguard/arcanist/ranger/shade) + schema. `StatsComponent` uses class primary/secondary stats.
+- [x] 3.2 `Leveling` (pure): `add_exp(level, exp, amount, table) -> {level, exp, levels_gained}`, with multi-level-ups and a max-level cap. HP/MP growth per level rolled from `base_hp_per_level` ranges with sim RNG. Emit `EXP_GAINED`, `LEVEL_UP`, `STATS_CHANGED`, `VITALS_CHANGED`.
+- [x] 3.3 `ExpDistributor`: on mob death, split EXP among damagers proportional to damage dealt (tracked per mob in a `damage_ledger`). Party sharing is a hook only (Phase 12).
+- [x] 3.4 AP/SP: `+ap_per_level` and `+sp_per_level` (from `stats.json`). Intents `ALLOC_AP(stat)` and `ALLOC_SP(skill_id)`, validated (has points, skill belongs to the class or ancestors, prerequisites met, below max level).
+- [x] 3.5 Death EXP penalty (`death_exp_loss_pct` of the current level's requirement, never de-levels; towns are exempt via map flag).
+- [x] 3.6 Skill types: `active_attack` (multi-hit, multi-target, `hits` with spaced damage events), `projectile` (`ProjectileEntity` moving per tick with a lifetime, resolving hits on mob hurtboxes), `buff` (adds to `StatsComponent.buff_bonus` for N ticks, via a `Buffs` component), `passive` (permanent bonus when learned).
+- [x] 3.7 `Cooldowns` component (tick counters per skill_id). Reject casts during cooldown with `Reject.COOLDOWN`.
+- [x] 3.8 HP/MP natural regen every `*_regen_interval_s` (more when standing still: genre convention).
+- [x] 3.9 Job advancement: an intent via NPC dialogue action `job_advance` (Phase 7 hooks it up; for now a debug command `/advance vanguard` in LOCAL debug builds only), validated against `advance_requirements`. Class change emits `STATS_CHANGED` and grants first-job skills at level 0 with SP.
+- [x] 3.10 Author first-job skills: 3–4 per class (one basic attack upgrade, one AoE/multi-hit or projectile, one buff, one passive) in `skills/<class>.json`, with schema validation.
+- [x] 3.11 Projectile and buff views: projectile sprite interpolated from snapshots, buff icon events.
+- [x] 3.12 `tools/gen_level_table.py`: curve-based generator. Generate levels 1–70 and commit.
 
 **Acceptance criteria**
 - Killing mobs grants EXP. The level-up event fires, HP/MP max increase, AP/SP are granted, and allocating AP changes damage measurably.

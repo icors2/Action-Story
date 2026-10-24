@@ -48,6 +48,9 @@ func step(tick: int) -> void:
 	for e: Entity in ents:
 		if e is MobEntity:
 			(e as MobEntity).step_ai(tick)
+	for e: Entity in entities.values():
+		if e is ProjectileEntity:
+			(e as ProjectileEntity).step_projectile(tick)
 	var after_ai: Array = entities.values()
 	for e: Entity in after_ai:
 		if e is MobEntity:
@@ -66,6 +69,8 @@ func spawn_player(record: CharacterRecord, owner_peer: int, eid: int) -> PlayerE
 	p.global_position = spawn_point(record.spawn_portal)
 	entities[eid] = p
 	emit(SimEvent.make(Protocol.EventType.ENTITY_SPAWNED, sim.tick, [eid, Const.EntityKind.PLAYER]))
+	p.emit_stats_changed()
+	p.emit_vitals()
 	return p
 
 
@@ -79,6 +84,12 @@ func spawn_mob(mob_def: MobDef, at: Vector2) -> MobEntity:
 	entities[mob.eid] = mob
 	emit(SimEvent.make(Protocol.EventType.ENTITY_SPAWNED, sim.tick, [mob.eid, Const.EntityKind.MOB, String(mob_def.id)]))
 	return mob
+
+
+func add_projectile(proj: ProjectileEntity) -> void:
+	_entity_root.add_child(proj)
+	entities[proj.eid] = proj
+	emit(SimEvent.make(Protocol.EventType.ENTITY_SPAWNED, sim.tick, [proj.eid, Const.EntityKind.PROJECTILE]))
 
 
 func remove_entity(eid: int) -> void:
@@ -95,8 +106,52 @@ func handle_intent(player: PlayerEntity, intent: Intent) -> void:
 			player.try_cast(intent)
 		Protocol.IntentType.RESPAWN:
 			player.try_respawn(intent)
+		Protocol.IntentType.ALLOC_AP:
+			player.try_alloc_ap(intent)
+		Protocol.IntentType.ALLOC_SP:
+			player.try_alloc_sp(intent)
+		Protocol.IntentType.CHAT:
+			_handle_chat(player, intent)
 		_:
 			reject(player, intent, Protocol.Reject.INVALID)
+
+
+func _handle_chat(player: PlayerEntity, intent: Intent) -> void:
+	if intent.args.is_empty():
+		reject(player, intent, Protocol.Reject.INVALID)
+		return
+	var text: String = str(intent.args[0]).strip_edges()
+	if text.begins_with("/advance"):
+		_debug_advance(player, intent, text)
+		return
+	emit(SimEvent.make(Protocol.EventType.CHAT, sim.tick, [player.eid, text]))
+
+
+func _debug_advance(player: PlayerEntity, intent: Intent, text: String) -> void:
+	if Config.mode != Config.Mode.LOCAL or not OS.is_debug_build():
+		reject(player, intent, Protocol.Reject.NOT_ALLOWED)
+		return
+	var parts: PackedStringArray = text.split(" ", false)
+	if parts.size() < 2:
+		reject(player, intent, Protocol.Reject.INVALID)
+		return
+	var to_id: StringName = StringName(parts[1])
+	var reason: int = JobAdvance.validate(player, to_id, true)
+	if reason != Protocol.Reject.NONE:
+		reject(player, intent, reason)
+		return
+	JobAdvance.apply(player, to_id)
+	if player.rpg:
+		player.rpg.sp = maxi(player.rpg.sp, 6)
+		player.rpg.ap = maxi(player.rpg.ap, 5)
+	player.emit_stats_changed()
+	emit(SimEvent.make(
+		Protocol.EventType.SYSTEM_MESSAGE,
+		sim.tick,
+		["Advanced to %s. F5–F8 AP, F9 SP, Q/E skills." % to_id],
+		Protocol.Scope.PLAYER,
+		player.eid
+	))
 
 
 func reject(player: PlayerEntity, intent: Intent, reason: int) -> void:

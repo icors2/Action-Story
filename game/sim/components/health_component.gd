@@ -40,6 +40,14 @@ func heal(amount: int) -> int:
 	return hp - before
 
 
+func restore_mp(amount: int) -> int:
+	if is_dead():
+		return 0
+	var before: int = mp
+	mp = mini(mp + maxi(amount, 0), max_mp)
+	return mp - before
+
+
 func spend_mp(amount: int) -> bool:
 	if amount <= 0:
 		return true

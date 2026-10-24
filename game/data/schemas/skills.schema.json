@@ -21,6 +21,9 @@
           "hitbox": { "type": "object" },
           "max_targets": { "type": "integer" },
           "hits": { "type": "integer" },
+          "hit_spacing_s": { "type": "number" },
+          "required_skills": { "type": "object" },
+          "projectile": { "type": "object" },
           "levels": { "type": "object" },
           "knockback": {
             "type": "array",

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schema_version", "classes"],
+  "properties": {
+    "schema_version": { "type": "integer" },
+    "classes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "tier", "primary_stat", "secondary_stat"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "tier": { "type": "integer" },
+          "parent": { "type": ["string", "null"] },
+          "primary_stat": { "type": "string" },
+          "secondary_stat": { "type": "string" },
+          "advance_level": { "type": "integer" },
+          "advance_quest": { "type": "string" },
+          "base_hp_per_level": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "base_mp_per_level": {
+            "type": "array",
+            "items": { "type": "integer" },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "starting_skills": { "type": "array", "items": { "type": "string" } },
+          "allowed_weapon_types": { "type": "array", "items": { "type": "string" } },
+          "advance_requirements": { "type": "object" }
+        }
+      }
+    }
+  }
+}
