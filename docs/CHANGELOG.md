@@ -17,11 +17,9 @@ Walk, jump, one-way drop-through, ropes/ladders, LOCAL prediction.
 3. Expect: `entered_map map_test_movement eid=1`, blue rectangle with a yellow nose, F3 overlay.
 4. **Arrows or WASD** — run. **Space or Alt** — jump (~3.5 tiles).
 5. Land on an amber platform from below. **Down + Jump** drops through. Solid green ground does not drop through.
-6. Stand under the rope or ladder, **Up** to grab, **Up/Down** to climb, **Jump + Left/Right** to hop off. Climb off the top onto the platform.
+6. **Brown rope** (left platforms) and **yellow ladder** (right platforms) should be visible. Stand on one, **Up** to grab, **Up/Down** to climb, **Jump + Left/Right** to hop off.
 7. Overlay `corrections>1px` should stay 0 while walking/jumping in LOCAL.
 8. F3 hides the overlay.
-
-Rope is a brown vertical bar (near the left platforms). Ladder is yellow rails + rungs (near the right platforms).
 
 Stop here. Next: Phase 2 combat.
 
