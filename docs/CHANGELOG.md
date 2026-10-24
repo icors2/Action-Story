@@ -21,6 +21,8 @@ Walk, jump, one-way drop-through, ropes/ladders, LOCAL prediction.
 7. Overlay `corrections>1px` should stay 0 while walking/jumping in LOCAL.
 8. F3 hides the overlay.
 
+Rope is a brown vertical bar (near the left platforms). Ladder is yellow rails + rungs (near the right platforms).
+
 Stop here. Next: Phase 2 combat.
 
 ## Phase 0 — M0 Skeleton (2026-10-17)
