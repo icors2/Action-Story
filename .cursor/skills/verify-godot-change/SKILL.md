@@ -14,6 +14,7 @@ description: Prove a Skyrope game change works: headless boot, GUT, data validat
 
 - `godot` on PATH matches `.godot-version` (4.7.2-stable)
 - `game/project.godot` exists (Phase 0+)
+- `game/.godot/` exists. If not: `godot --headless --import --path game` first. Fresh ZIP/clone without import fails autoloads (`Could not find type "StatsConfig"`).
 
 ## Steps
 

@@ -7,6 +7,10 @@ const CLIENT_SCENE := "res://client/client_main.tscn"
 
 func _ready() -> void:
 	Log.info("boot", "Skyrope starting mode=%s godot=%s" % [Config.mode_name(), Engine.get_version_info()["string"]])
+	if DataRegistry == null:
+		Log.error("boot", "DataRegistry failed to load. Import first: godot --headless --import --path game")
+		get_tree().quit(1)
+		return
 	if not DataRegistry.is_loaded():
 		Log.error("boot", "Data failed to load; aborting")
 		get_tree().quit(1)

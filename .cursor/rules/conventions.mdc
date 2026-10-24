@@ -29,6 +29,7 @@ Add a bullet only after it is a real project habit. Do not paste a style guide.
 - Original names and art only. No MapleStory/Nexon assets, names, or private-server dumps.
 - Tests accompany `game/sim/` and `game/shared/` logic. Never delete tests to go green.
 - After each task: headless boot + GUT. Tick the BUILD_SCOPE checkbox only when that passes.
+- First Godot launch on a machine: `godot --headless --import --path game` (or open `game/` in the editor) before Play. Windows PowerShell: prefix quoted exe paths with `&`. No `make` unless Git Bash/WSL provides it.
 
 ## Starter habits still useful
 

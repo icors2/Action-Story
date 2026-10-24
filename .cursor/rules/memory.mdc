@@ -9,7 +9,7 @@ Agents update this file. It is the living snapshot of the project.
 ## Status
 
 - **Status:** active
-- **Updated:** 2026-10-17
+- **Updated:** 2026-10-23
 
 ## Project
 
@@ -23,14 +23,15 @@ Agents update this file. It is the living snapshot of the project.
 
 ## Current focus
 
-- **Phase 0 (M0) complete.** Skeleton boots LOCAL (`map_test_flat` eid=1) and SERVER (`Channel 1 ready`). 20 GUT tests pass.
-- **Stopped for play-test.** Do not start Phase 1 until Chris says continue.
+- **Phase 0 play-test in progress on Windows.** Grey window plus `Could not find type "StatsConfig"` is a failed first launch (no `game/.godot/` import), not a pass.
+- First-run fix: import `game/` once, then Play. Helper: `scripts/run-local.ps1`.
+- Do not start Phase 1 until LOCAL logs `entered_map map_test_flat eid=1` with no SCRIPT ERROR.
 - Next phase: **1 — movement & physics** (`implement-skyrope-phase`).
 - Source of truth: `BUILD_SCOPE.md`. One phase at a time.
 
 ## Open questions
 
-- Play-test Phase 0 (LOCAL grey floor + headless server) before Phase 1.
+- Finish Phase 0 play-test after import: LOCAL `entered_map` + optional GUT 20/20. Then Phase 1.
 - Redis deferred to Phase 12+ (Decision Log required).
 - Public HTTPS / Caddy profile deferred until leaving Tailscale.
 

@@ -3871,6 +3871,7 @@ Tasks are ordered. Each one is small enough for a single commit. A task is done 
 - Don't add `MultiplayerSpawner`/`MultiplayerSynchronizer` nodes "for later". The architecture uses custom snapshots.
 - Official Godot 4.7.x Linux x86_64 binaries require SSE4.2 and abort on older lab CPUs. Wrap with `qemu-x86_64-static -cpu max` (`scripts/install-cloud-env.sh`).
 - `CharacterRecord.new_default` must use `map_test_flat` until Phase 5 town maps exist (D-018).
+- First launch without import (`game/.godot/` missing) fails autoloads: `Could not find type "StatsConfig"` / `DataRegistry` is Nil. Run `godot --headless --import --path game` (or open `game/` in the editor) before Play. A grey window with SCRIPT ERROR is not a pass.
 
 ---
 

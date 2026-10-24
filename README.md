@@ -12,14 +12,21 @@ git clone https://github.com/icors2/Action-Story.git
 
 ```bash
 # Install Godot 4.7.2 and put `godot` on PATH (or run scripts/install-cloud-env.sh)
-make import          # first-time import
+make import          # first-time import (required; ZIP / fresh clone)
 make test            # GUT headless
 make run             # LOCAL client (grey test floor in Phase 0)
 make server          # headless dedicated server
 make validate        # JSON Schema + index check
 ```
 
-Open the `game/` folder in the Godot editor — not the repo root.
+Windows PowerShell (no `make`; quote the Godot path and prefix with `&`):
+
+```powershell
+$godot = "C:\path\to\Godot_v4.7.2-stable_win64_console.exe"
+.\scripts\run-local.ps1 -Godot $godot
+```
+
+Open the `game/` folder in the Godot editor — not the repo root. Import once before Play.
 
 This repo also includes a Cursor agent starter (rules, skills, MCP). Product run/test steps live in `AGENTS.md`.
 

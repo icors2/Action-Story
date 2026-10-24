@@ -1,5 +1,15 @@
 # Changelog
 
+## Phase 0 fix — first-run import (2026-10-23)
+
+Fresh ZIP / clone launches failed because autoloads parsed before Godot registered `class_name` types.
+
+- `boot.gd` now errors clearly if `DataRegistry` is missing (import the `game/` project first).
+- Windows helper: `scripts/run-local.ps1 -Godot <godot.exe>` (import, then run/test/server).
+- Docs: `README.md`, `docs/RUNBOOK.md`, Phase 0 pitfalls.
+
+Pass is still: grey floor **and** `entered_map map_test_flat eid=1` with no SCRIPT ERROR.
+
 ## Phase 0 — M0 Skeleton (2026-10-17)
 
 Architecture exists end to end with no gameplay.

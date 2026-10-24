@@ -7,6 +7,12 @@ alwaysApply: false
 
 Write the mistake, the signal, and the fix. Newest first.
 
+## 2026-10-23 — First run needs import
+
+- **What happened:** Fresh ZIP / no `game/.godot/` then `godot --path game` parsed autoloads before `class_name` types were registered.
+- **Signal:** `Could not find type "StatsConfig"` (and MobDef/SkillDef/MapDef/InputFrame/…). `DataRegistry` / `Net` fail; boot then `is_loaded` on Nil. Grey window is not a pass.
+- **Fix:** `godot --headless --import --path game` once, or Import `game/` in the editor, then Play. Windows: `.\scripts\run-local.ps1 -Godot <exe>`.
+
 ## 2026-10-17 — Godot 4.7 on old CPUs
 
 - **What happened:** Official `Godot_v4.7.2-stable_linux.x86_64` aborted immediately (`SIGABRT`).

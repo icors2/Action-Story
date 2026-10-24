@@ -78,7 +78,7 @@ Cursor does not keep chat history as memory. **Rules are the memory.**
 - **GitHub:** https://github.com/icors2/Action-Story (issues, PRs, Actions). Not Cursor_Forge.
 - **Stack:** Godot 4.7.2-stable + typed GDScript (`game/` is the Godot project). Python 3.12 + FastAPI backend from Phase 11. Make at repo root.
 - **Install:** Pin is `.godot-version`. Cloud: `.cursor/environment.json` `install` (idempotent Godot + uv). Local: install Godot 4.7.2 and put `godot` on PATH. GUT is vendored at `game/addons/gut/` (Phase 0). Backend later: `cd backend && uv sync`.
-- **Run:** `make run` (LOCAL client). `make server` (headless dedicated server). Editor: open the `game/` folder in Godot.
+- **Run:** First time: `make import` or `godot --headless --import --path game`. Then `make run` (LOCAL client). `make server` (headless dedicated server). Windows: `.\scripts\run-local.ps1 -Godot <godot.exe>`. Editor: open the `game/` folder in Godot, not the repo root.
 - **Test:** `make test` (GUT headless). Data: `python3 tools/build_index.py --check && python3 tools/validate_data.py`. Backend (Phase 11+): `cd backend && uv run pytest -q`. Cursor layout: `npm run verify`.
 - **Lint:** Godot `untyped_declaration` is an error. Keep `.gd` ≤ 400 lines.
 - **Verify a UI change:** Phase 0 is a grey test floor — confirm LOCAL boots and logs `entered_map` / eid. Later UI: play the critical path in the Godot window (not a browser). Also `godot --headless --path game --quit-after 120`.
